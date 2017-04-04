@@ -35,7 +35,7 @@ You can build these libraries yourself or install them via package manager if av
 
 For building libzway itself, CMake is required.
 
-### Build under Linux
+### Build under Linux or Mac
 
 In case you want to build the dependencies yourself, there is a [helper script](https://github.com/mw0x/zway-lib/blob/master/deps/build.sh) in the deps directory that will build static libraries for you, but you will have to download the source packages yourself and place them inside the deps directory. The script will create an install directory inside the deps folder and install the compiled libraries into there.
 
@@ -75,7 +75,7 @@ Fire build command:
 $ make
 ```
 
-### Build under Linux for Android
+### Build under Linux or Mac for Android
 
 Building for Android requires the [Android NDK](https://developer.android.com/ndk/index.html).
 
@@ -110,7 +110,7 @@ so I had to hardcode it, please adjust it in the [android_arm7_toolchain.cmake](
 
 If anyone has any clue about that issue, please let me know.
 
-Generate Makefile via CMake (for completeness with the defunct option):
+Generate Makefile via CMake:
 
 ```
 $ cmake -DCMAKE_BUILD_TYPE=Release -DANDROID_NDK_PATH=PATH_TO_ANDROID_NDK -DANDROID_API_LEVEL=19 -DCMAKE_TOOLCHAIN_FILE=android_arm7_toolchain.cmake .. 
@@ -123,9 +123,5 @@ $ make
 ```
 
 ### Build under Linux for Windows
-
-Details to follow ...
-
-### Build under Mac
 
 Details to follow ...
