@@ -74,9 +74,11 @@ protected:
 
     int32_t processStreamSenders(bool copyBody, std::function<bool (PACKET)> packetCallback);
 
+    void removeStreamSender(STREAM_SENDER sender);
+
 protected:
 
-    ThreadSafe<STREAM_SENDER_MAP> m_streamSenders;
+    ThreadSafe<STREAM_SENDER_LIST> m_streamSenders;
 
     ThreadSafe<STREAM_RECEIVER_MAP> m_streamReceivers;
 

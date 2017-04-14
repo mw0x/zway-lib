@@ -129,14 +129,11 @@ bool Engine::addStreamSender(STREAM_SENDER sender)
         return false;
     }
 
-    MutexLocker locker(m_streamSenders);
+    {
+        MutexLocker locker(m_streamSenders);
 
-    if (m_streamSenders->find(sender->id()) != m_streamSenders->end()) {
-
-        return false;
+        m_streamSenders->push_back(sender);
     }
-
-    (*m_streamSenders)[sender->id()] = sender;
 
     return true;
 }
@@ -448,7 +445,7 @@ int32_t Engine::processStreamSenders(bool copyBody, std::function<bool (PACKET)>
     // get snapshot of stream senders in order to prevent
     // deadlocks when callbacks post new ones
 
-    STREAM_SENDER_MAP senders;
+    STREAM_SENDER_LIST senders;
 
     {
         MutexLocker locker(m_streamSenders);
@@ -461,9 +458,7 @@ int32_t Engine::processStreamSenders(bool copyBody, std::function<bool (PACKET)>
         return 0;
     }
 
-    for (auto &it : senders) {
-
-        STREAM_SENDER sender = it.second;
+    for (auto &sender : senders) {
 
         PACKET pkt;
 
@@ -488,28 +483,32 @@ int32_t Engine::processStreamSenders(bool copyBody, std::function<bool (PACKET)>
 
             if (sender->status() == StreamSender::Completed) {
 
-                {
-                    MutexLocker locker(m_streamSenders);
-
-                    m_streamSenders->erase(sender->id());
-                }
+                removeStreamSender(sender);
 
                 break;
             }
         }
         else {
 
-            {
-                MutexLocker locker(m_streamSenders);
-
-                m_streamSenders->erase(sender->id());
-            }
+            removeStreamSender(sender);
 
             break;
         }
     }
 
     return res;
+}
+
+/**
+ * @brief Engine::removeStreamSender
+ * @param sender
+ */
+
+void Engine::removeStreamSender(STREAM_SENDER sender)
+{
+    MutexLocker locker(m_streamSenders);
+
+    m_streamSenders->remove(sender);
 }
 
 // ============================================================ //

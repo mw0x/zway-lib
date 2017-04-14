@@ -130,7 +130,7 @@ typedef std::function<void (STREAM_RECEIVER)> STREAM_RECEIVER_CALLBACK;
 
 typedef std::shared_ptr<StreamSender> STREAM_SENDER;
 
-typedef std::map<uint32_t, STREAM_SENDER> STREAM_SENDER_MAP;
+typedef std::list<STREAM_SENDER> STREAM_SENDER_LIST;
 
 typedef std::function<void (STREAM_SENDER)> STREAM_SENDER_CALLBACK;
 
