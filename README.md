@@ -14,7 +14,7 @@ The protocol is based on UBJ (Univeral Binary JSON) for exchange of dynamic data
 
 For cryptography we rely on the [Nettle](https://www.lysator.liu.se/~nisse/nettle/) library, which is also used by GnuTLS internally.
 
-Hybrid encryption is applied using AES-256 (counter mode) for symmetric encryption of the message contents and RSA-2048 for end-to-end encrpytion of a random message key.
+Hybrid encryption is applied using AES-256 (counter mode) for symmetric encryption of the message contents and RSA-2048 for end-to-end encrpytion of a random message key. I'm aware of perfect forward secrecy, which will be implemented soon.
 
 ## Storage
 
