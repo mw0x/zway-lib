@@ -78,6 +78,7 @@ set(libzway_SRCS
     src/core/crypto/rsa.cpp
 
     src/core/buffer.cpp
+    src/core/memorybuffer.cpp
     src/core/engine.cpp
     src/core/packet.cpp
     src/core/request.cpp
