@@ -24,9 +24,9 @@
 //
 // ============================================================ //
 
-#include "Zway/core/crypto/crypto.h"
-#include "Zway/core/crypto/random.h"
-#include "Zway/core/memorybuffer.h"
+#include "Zway/crypto/crypto.h"
+#include "Zway/crypto/random.h"
+#include "Zway/memorybuffer.h"
 
 namespace Zway { namespace Crypto {
 

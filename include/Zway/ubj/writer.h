@@ -27,7 +27,7 @@
 #ifndef ZWAY_CORE_UBJ_WRITER_H_
 #define ZWAY_CORE_UBJ_WRITER_H_
 
-#include "Zway/core/ubj/value.h"
+#include "Zway/ubj/value.h"
 
 namespace Zway { namespace UBJ {
 

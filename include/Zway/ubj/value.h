@@ -27,7 +27,7 @@
 #ifndef ZWAY_CORE_UBJ_VALUE_H_
 #define ZWAY_CORE_UBJ_VALUE_H_
 
-#include "Zway/core/ubj/ubj.h"
+#include "Zway/ubj/ubj.h"
 #include "Zway/types.h"
 
 #include <deque>

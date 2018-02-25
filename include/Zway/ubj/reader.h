@@ -27,7 +27,7 @@
 #ifndef ZWAY_CORE_UBJ_READER_H_
 #define ZWAY_CORE_UBJ_READER_H_
 
-#include "Zway/core/ubj/value.h"
+#include "Zway/ubj/value.h"
 
 namespace Zway {
 

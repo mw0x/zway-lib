@@ -27,7 +27,7 @@
 #ifndef ZWAY_STORE_H_
 #define ZWAY_STORE_H_
 
-#include "Zway/store/ubj/store.h"
+#include "Zway/ubj/store/store.h"
 
 namespace Zway {
 
@@ -38,7 +38,7 @@ using MessageList = std::deque<Message$>;
 
 // ============================================================ //
 
-class Store : public UBJ::Store
+class Store : public UBJ::Store::Store
 {
 public:
 

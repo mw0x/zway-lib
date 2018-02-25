@@ -27,7 +27,7 @@
 #ifndef CREATE_ADD_CODE_REQUEST_H_
 #define CREATE_ADD_CODE_REQUEST_H_
 
-#include "Zway/core/request.h"
+#include "Zway/request.h"
 
 namespace Zway {
 

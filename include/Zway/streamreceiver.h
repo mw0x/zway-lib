@@ -27,7 +27,7 @@
 #ifndef ZWAY_CORE_STREAM_RECEIVER_H_
 #define ZWAY_CORE_STREAM_RECEIVER_H_
 
-#include "Zway/core/packet.h"
+#include "Zway/packet.h"
 
 namespace Zway {
 

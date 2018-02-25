@@ -24,12 +24,13 @@
 //
 // ============================================================ //
 
-#include "Zway/core/crypto/crypto.h"
-#include "Zway/core/crypto/digest.h"
-#include "Zway/core/packet.h"
-#include "Zway/core/memorybuffer.h"
+#include "Zway/crypto/crypto.h"
+#include "Zway/crypto/digest.h"
+#include "Zway/packet.h"
+#include "Zway/memorybuffer.h"
 #include "Zway/message/resource.h"
-#include "Zway/store/store.h"
+#include "Zway/store.h"
+#include "Zway/ubj/store/blob.h"
 
 namespace Zway {
 
@@ -387,7 +388,7 @@ bool LocalStoreResource::init(uint32_t nodeId, uint32_t resourceId)
 
     uint32_t blobSize = data["size"].toInt();
 
-    m_store->readBlob("blob3", blobId, [this, &blobSize] (bool error, Store::BLOB blob) {
+    m_store->readBlob("blob3", blobId, [this, &blobSize] (bool error, UBJ::Store::Blob$ blob) {
 
         if (!error) {
 

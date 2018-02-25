@@ -24,8 +24,8 @@
 //
 // ============================================================ //
 
-#include "Zway/core/memorybuffer.h"
-#include "Zway/core/crypto/erase_from_memory.h"
+#include "Zway/memorybuffer.h"
+#include "Zway/crypto/erase_from_memory.h"
 
 namespace Zway {
 

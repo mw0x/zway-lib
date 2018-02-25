@@ -27,7 +27,7 @@
 #include "Zway/request/acceptcontactrequest.h"
 #include "Zway/request/configrequest.h"
 #include "Zway/request/requestevent.h"
-#include "Zway/store/store.h"
+#include "Zway/store.h"
 #include "Zway/client.h"
 
 namespace Zway {

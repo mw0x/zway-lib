@@ -24,8 +24,8 @@
 //
 // ============================================================ //
 
-#include "Zway/core/ubj/writer.h"
-#include "Zway/core/memorybuffer.h"
+#include "Zway/ubj/writer.h"
+#include "Zway/memorybuffer.h"
 
 #include <vector>
 

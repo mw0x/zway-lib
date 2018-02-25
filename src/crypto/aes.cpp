@@ -24,8 +24,8 @@
 //
 // ============================================================ //
 
-#include "Zway/core/crypto/aes.h"
-#include "Zway/core/memorybuffer.h"
+#include "Zway/crypto/aes.h"
+#include "Zway/memorybuffer.h"
 
 #include <cstring>
 

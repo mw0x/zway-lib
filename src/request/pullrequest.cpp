@@ -40,9 +40,9 @@ namespace Zway {
  * @return
  */
 
-PULL_REQUEST PullRequest::create(Client *client, uint32_t messageId, uint32_t resourceId, RequestCallback callback)
+PullRequest$ PullRequest::create(Client *client, uint32_t messageId, uint32_t resourceId, RequestCallback callback)
 {
-    return PULL_REQUEST(new PullRequest(client, messageId, resourceId, callback));
+    return PullRequest$(new PullRequest(client, messageId, resourceId, callback));
 }
 
 /**

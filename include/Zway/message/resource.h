@@ -27,7 +27,7 @@
 #ifndef RESOURCE_H_
 #define RESOURCE_H_
 
-#include "Zway/core/ubj/value.h"
+#include "Zway/ubj/value.h"
 
 #include <fstream>
 

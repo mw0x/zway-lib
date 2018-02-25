@@ -27,7 +27,7 @@
 #ifndef ZWAY_CRYPTO_RSA_H_
 #define ZWAY_CRYPTO_RSA_H_
 
-#include "Zway/core/ubj/value.h"
+#include "Zway/ubj/value.h"
 
 namespace Zway { namespace Crypto {
 

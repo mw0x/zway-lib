@@ -27,8 +27,8 @@
 #ifndef ZWAY_CORE_UBJ_SENDER_H_
 #define ZWAY_CORE_UBJ_SENDER_H_
 
-#include "Zway/core/buffersender.h"
-#include "Zway/core/ubj/value.h"
+#include "Zway/buffersender.h"
+#include "Zway/ubj/value.h"
 
 namespace Zway {
 

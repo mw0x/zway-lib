@@ -24,10 +24,10 @@
 //
 // ============================================================ //
 
-#include "Zway/core/crypto/crypto.h"
-#include "Zway/core/crypto/digest.h"
-#include "Zway/core/crypto/secmem.h"
-#include "Zway/core/memorybuffer.h"
+#include "Zway/crypto/crypto.h"
+#include "Zway/crypto/digest.h"
+#include "Zway/crypto/secmem.h"
+#include "Zway/memorybuffer.h"
 
 #include <cstring>
 

@@ -27,8 +27,8 @@
 #ifndef RESOURCE_SENDER_H_
 #define RESOURCE_SENDER_H_
 
-#include "Zway/core/ubjsender.h"
-#include "Zway/core/crypto/aes.h"
+#include "Zway/ubjsender.h"
+#include "Zway/crypto/aes.h"
 
 namespace Zway {
 

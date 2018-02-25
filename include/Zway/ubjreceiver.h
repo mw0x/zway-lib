@@ -27,8 +27,8 @@
 #ifndef ZWAY_CORE_UBJ_RECEIVER_H_
 #define ZWAY_CORE_UBJ_RECEIVER_H_
 
-#include "Zway/core/bufferreceiver.h"
-#include "Zway/core/ubj/value.h"
+#include "Zway/bufferreceiver.h"
+#include "Zway/ubj/value.h"
 
 namespace Zway {
 

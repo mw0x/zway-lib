@@ -27,11 +27,11 @@
 #ifndef PULL_REQUEST_H_
 #define PULL_REQUEST_H_
 
-#include "Zway/core/request.h"
-#include "Zway/request/requestevent.h"
+#include "Zway/request.h"
 
 namespace Zway {
 
+USING_SHARED_PTR(PullRequest)
 USING_SHARED_PTR(Client)
 
 // ============================================================ //
@@ -44,9 +44,7 @@ class PullRequest : public Request
 {
 public:
 
-    typedef std::shared_ptr<PullRequest> Pointer;
-
-    static Pointer create(Client *client, uint32_t messageId, uint32_t resourceId=0, RequestCallback callback = nullptr);
+    static PullRequest$ create(Client *client, uint32_t messageId, uint32_t resourceId=0, RequestCallback callback = nullptr);
 
     bool processResponse(const UBJ::Object &response);
 
@@ -54,8 +52,6 @@ protected:
 
     PullRequest(Client *client, uint32_t messageId, uint32_t resourceId, RequestCallback callback);
 };
-
-typedef PullRequest::Pointer PULL_REQUEST;
 
 // ============================================================ //
 

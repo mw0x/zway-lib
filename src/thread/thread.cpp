@@ -24,7 +24,7 @@
 //
 // ============================================================ //
 
-#include "Zway/core/thread/thread.h"
+#include "Zway/thread/thread.h"
 
 namespace Zway {
 

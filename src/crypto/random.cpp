@@ -24,7 +24,7 @@
 //
 // ============================================================ //
 
-#include "Zway/core/crypto/random.h"
+#include "Zway/crypto/random.h"
 
 #include <cstdio>
 

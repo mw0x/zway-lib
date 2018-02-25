@@ -27,7 +27,7 @@
 #ifndef ZWAY_CORE_MEMORY_BUFFER_H_
 #define ZWAY_CORE_MEMORY_BUFFER_H_
 
-#include "Zway/core/buffer.h"
+#include "Zway/buffer.h"
 
 namespace Zway {
 

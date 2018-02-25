@@ -24,9 +24,10 @@
 //
 // ============================================================ //
 
-#include "Zway/core/crypto/random.h"
+#include "Zway/crypto/random.h"
 #include "Zway/message/message.h"
-#include "Zway/store/store.h"
+#include "Zway/ubj/store/cursor.h"
+#include "Zway/store.h"
 
 namespace Zway {
 
@@ -37,7 +38,7 @@ namespace Zway {
  */
 
 Store::Store()
-    : UBJ::Store(),
+    : UBJ::Store::Store(),
       m_accountId(0)
 {
 
@@ -152,7 +153,7 @@ bool Store::getConfig(UBJ::Object &config, bool contacts)
 
         UBJ::Array contacts;
 
-        query("contacts", {}, [&contacts] (bool error, UBJ::Store::CURSOR cursor) {
+        query("contacts", {}, [&contacts] (bool error, UBJ::Store::Cursor$ cursor) {
 
             cursor->forEach([&] (UBJ::Object &contact) {
 
@@ -471,7 +472,7 @@ bool Store::deleteHistory(uint64_t history)
     std::list<uint32_t> messages;
 
     query("messages", UBJ_OBJ("history" << history), UBJ::Object(), UBJ_ARR("id"), 0, 0,
-          [&messages] (bool error, CURSOR cursor) {
+          [&messages] (bool error, UBJ::Store::Cursor$ cursor) {
 
         cursor->forEach([&] (UBJ::Object &message) {
 
@@ -510,7 +511,8 @@ MessageList Store::getMessages(uint32_t history)
 {
     MessageList messages;
 
-    query("messages", UBJ_OBJ("history" << history), [&messages] (bool error, CURSOR cursor) {
+    query("messages", UBJ_OBJ("history" << history),
+          [&messages] (bool error, UBJ::Store::Cursor$ cursor) {
 
         cursor->forEach([&] (UBJ::Object &message) {
 
@@ -611,7 +613,7 @@ bool Store::deleteMessage(uint32_t id)
     std::list<uint32_t> resources;
 
     query("resources", UBJ_OBJ("request" << id), UBJ::Object(), UBJ_ARR("id"), 0, 0,
-          [&resources] (bool error, CURSOR cursor) {
+          [&resources] (bool error, UBJ::Store::Cursor$ cursor) {
 
         cursor->forEach([&] (UBJ::Object &resource) {
 
@@ -741,7 +743,7 @@ std::string Store::randomColor()
 
 bool Store::init(const std::string &filename, const std::string &password, const UBJ::Object &data, bool handler)
 {
-    if (!UBJ::Store::init(filename, password, handler)) {
+    if (!UBJ::Store::Store::init(filename, password, handler)) {
 
         return false;
     }
@@ -791,7 +793,7 @@ bool Store::init(const std::string &filename, const std::string &password, const
 
 bool Store::open(const std::string &filename, const std::string &password, bool handler)
 {
-    if (!UBJ::Store::open(filename, password, handler)) {
+    if (!UBJ::Store::Store::open(filename, password, handler)) {
 
         return false;
     }
@@ -842,13 +844,13 @@ bool Store::createBlobTables()
 
 bool Store::createVTables()
 {
-    if (!UBJ::Store::createVTables()) {
+    if (!UBJ::Store::Store::createVTables()) {
 
         return false;
     }
 
     if (!m_vtabs["requests"].create(
-                this,
+                shared_from_this(),
                 "blob2",
                 "requests",
                 Request,
@@ -872,7 +874,7 @@ bool Store::createVTables()
     }
 
     if (!m_vtabs["contact_requests"].create(
-                this,
+                shared_from_this(),
                 "blob2",
                 "contact_requests",
                 ContactRequest,
@@ -900,7 +902,7 @@ bool Store::createVTables()
     }
 
     if (!m_vtabs["add_codes"].create(
-                this,
+                shared_from_this(),
                 "blob2",
                 "add_codes",
                 AddCode,
@@ -914,7 +916,7 @@ bool Store::createVTables()
     }
 
     if (!m_vtabs["contacts"].create(
-                this,
+                shared_from_this(),
                 "blob2",
                 "contacts",
                 Contact,
@@ -936,7 +938,7 @@ bool Store::createVTables()
     }
 
     if (!m_vtabs["histories"].create(
-                this,
+                shared_from_this(),
                 "blob2",
                 "histories",
                 History,
@@ -950,7 +952,7 @@ bool Store::createVTables()
     }
 
     if (!m_vtabs["messages"].create(
-                this,
+                shared_from_this(),
                 "blob2",
                 "messages",
                 Message,
@@ -976,7 +978,7 @@ bool Store::createVTables()
     }
 
     if (!m_vtabs["resources"].create(
-                this,
+                shared_from_this(),
                 "blob2",
                 "resources",
                 Resource,
@@ -1004,7 +1006,7 @@ bool Store::createVTables()
     }
 
     if (!m_vtabs["vfs"].create(
-                this,
+                shared_from_this(),
                 "blob2",
                 "vfs",
                 Vfs,
@@ -1032,7 +1034,7 @@ bool Store::createVTables()
     }
 
     if (!m_vtabs["thumbnails"].create(
-                this,
+                shared_from_this(),
                 "blob2",
                 "thumbnails",
                 Thumbnail,

@@ -27,7 +27,7 @@
 #ifndef ZWAY_HANDLER_H_
 #define ZWAY_HANDLER_H_
 
-#include "Zway/core/thread/thread.h"
+#include "Zway/thread/thread.h"
 
 #include <list>
 

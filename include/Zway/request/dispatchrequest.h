@@ -27,7 +27,7 @@
 #ifndef DISPATCH_REQUEST_H_
 #define DISPATCH_REQUEST_H_
 
-#include "Zway/core/request.h"
+#include "Zway/request.h"
 
 namespace Zway {
 

@@ -25,7 +25,7 @@
 // ============================================================ //
 
 #include "Zway/request/requestevent.h"
-#include "Zway/core/request.h"
+#include "Zway/request.h"
 
 namespace Zway {
 

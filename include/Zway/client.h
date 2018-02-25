@@ -27,7 +27,7 @@
 #ifndef ZWAY_CLIENT_H_
 #define ZWAY_CLIENT_H_
 
-#include "Zway/core/engine.h"
+#include "Zway/engine.h"
 #include "Zway/event/eventhandler.h"
 
 #if defined _WIN32

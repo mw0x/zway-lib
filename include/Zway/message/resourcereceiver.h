@@ -27,8 +27,8 @@
 #ifndef RESOURCE_RECEIVER_H_
 #define RESOURCE_RECEIVER_H_
 
-#include "Zway/core/bufferreceiver.h"
-#include "Zway/core/crypto/aes.h"
+#include "Zway/bufferreceiver.h"
+#include "Zway/crypto/aes.h"
 
 namespace Zway {
 

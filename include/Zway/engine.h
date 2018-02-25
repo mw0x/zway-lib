@@ -27,9 +27,9 @@
 #ifndef ZWAY_CORE_ENGINE_H_
 #define ZWAY_CORE_ENGINE_H_
 
-#include "Zway/core/packet.h"
-#include "Zway/core/request.h"
-#include "Zway/core/thread/safe.h"
+#include "Zway/packet.h"
+#include "Zway/request.h"
+#include "Zway/thread/safe.h"
 
 namespace Zway {
 

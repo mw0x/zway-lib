@@ -24,10 +24,10 @@
 //
 // ============================================================ //
 
-#include "Zway/core/engine.h"
-#include "Zway/core/ubjreceiver.h"
-#include "Zway/core/ubjsender.h"
-#include "Zway/core/memorybuffer.h"
+#include "Zway/engine.h"
+#include "Zway/ubjreceiver.h"
+#include "Zway/ubjsender.h"
+#include "Zway/memorybuffer.h"
 
 namespace Zway {
 

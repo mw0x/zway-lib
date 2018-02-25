@@ -27,7 +27,7 @@
 #ifndef REJECT_CONTACT_REQUEST_H_
 #define REJECT_CONTACT_REQUEST_H_
 
-#include "Zway/core/request.h"
+#include "Zway/request.h"
 
 namespace Zway {
 

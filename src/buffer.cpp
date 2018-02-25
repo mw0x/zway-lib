@@ -24,7 +24,7 @@
 //
 // ============================================================ //
 
-#include "Zway/core/buffer.h"
+#include "Zway/buffer.h"
 
 namespace Zway {
 

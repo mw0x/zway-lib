@@ -24,7 +24,7 @@
 //
 // ============================================================ //
 
-#include "Zway/core/crypto/secmem.h"
+#include "Zway/crypto/secmem.h"
 
 #if defined _WIN32
 #include <windows.h>

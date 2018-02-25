@@ -25,8 +25,8 @@
 //
 // ============================================================ //
 
-#include "Zway/core/ubj/ubj.h"
-#include "Zway/core/ubj/ubj_internal.h"
+#include "Zway/ubj/ubj.h"
+#include "Zway/ubj/ubj_internal.h"
 
 #define CONTAINER_IS_SIZED		0x1
 #define CONTAINER_IS_TYPED		0x2

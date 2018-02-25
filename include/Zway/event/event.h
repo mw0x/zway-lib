@@ -27,7 +27,7 @@
 #ifndef EVENTS_H_
 #define EVENTS_H_
 
-#include "Zway/core/ubj/value.h"
+#include "Zway/ubj/value.h"
 
 namespace Zway {
 

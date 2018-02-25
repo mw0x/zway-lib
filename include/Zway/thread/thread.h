@@ -27,7 +27,7 @@
 #ifndef ZWAY_THREAD_H_
 #define ZWAY_THREAD_H_
 
-#include "Zway/core/thread/safe.h"
+#include "Zway/thread/safe.h"
 
 #include <thread>
 #include <condition_variable>

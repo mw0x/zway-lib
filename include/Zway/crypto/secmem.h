@@ -27,8 +27,8 @@
 #ifndef ZWAY_CRYPTO_SECMEM_H
 #define ZWAY_CRYPTO_SECMEM_H
 
-#include "Zway/core/buffer.h"
-#include "Zway/core/thread/thread.h"
+#include "Zway/buffer.h"
+#include "Zway/thread/thread.h"
 #include <map>
 
 namespace Zway {

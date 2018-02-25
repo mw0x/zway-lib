@@ -28,11 +28,11 @@
 #include "Zway/request/requestevent.h"
 #include "Zway/message/resourcesender.h"
 #include "Zway/message/resource.h"
-#include "Zway/core/memorybuffer.h"
-#include "Zway/core/crypto/crypto.h"
-#include "Zway/core/crypto/random.h"
-#include "Zway/core/crypto/rsa.h"
-#include "Zway/store/store.h"
+#include "Zway/memorybuffer.h"
+#include "Zway/crypto/crypto.h"
+#include "Zway/crypto/random.h"
+#include "Zway/crypto/rsa.h"
+#include "Zway/store.h"
 #include "Zway/client.h"
 
 namespace Zway {

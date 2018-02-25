@@ -27,7 +27,7 @@
 #ifndef ZWAY_CORE_BUFFER_RECEIVER_H_
 #define ZWAY_CORE_BUFFER_RECEIVER_H_
 
-#include "Zway/core/streamreceiver.h"
+#include "Zway/streamreceiver.h"
 
 namespace Zway {
 

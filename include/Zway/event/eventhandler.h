@@ -28,7 +28,7 @@
 #define EVENT_HANDLER_H_
 
 #include "Zway/event/event.h"
-#include "Zway/core/thread/handler.h"
+#include "Zway/thread/handler.h"
 
 namespace Zway {
 

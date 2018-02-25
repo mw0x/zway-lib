@@ -27,7 +27,7 @@
 #ifndef PUSH_REQUEST_H_
 #define PUSH_REQUEST_H_
 
-#include "Zway/core/request.h"
+#include "Zway/request.h"
 #include "Zway/message/message.h"
 
 namespace Zway {

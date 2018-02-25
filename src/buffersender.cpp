@@ -24,8 +24,8 @@
 //
 // ============================================================ //
 
-#include "Zway/core/buffersender.h"
-#include "Zway/core/memorybuffer.h"
+#include "Zway/buffersender.h"
+#include "Zway/memorybuffer.h"
 
 namespace Zway {
 

@@ -24,10 +24,10 @@
 //
 // ============================================================ //
 
-#include "Zway/core/crypto/rsa.h"
-#include "Zway/core/crypto/random.h"
-#include "Zway/core/crypto/digest.h"
-#include "Zway/core/memorybuffer.h"
+#include "Zway/crypto/rsa.h"
+#include "Zway/crypto/random.h"
+#include "Zway/crypto/digest.h"
+#include "Zway/memorybuffer.h"
 
 #include <nettle/rsa.h>
 #include <nettle/yarrow.h>

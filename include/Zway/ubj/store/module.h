@@ -27,14 +27,16 @@
 #ifndef ZWAY_UBJ_MODULE_H_
 #define ZWAY_UBJ_MODULE_H_
 
-#include "Zway/core/ubj/value.h"
+#include "Zway/ubj/value.h"
 
 #include <cstring>
 #include <vector>
 
 #include <sqlite3.h>
 
-namespace Zway { namespace UBJ {
+namespace Zway { namespace UBJ { namespace Store {
+
+USING_SHARED_PTR(Store)
 
 using UbjObjectList = std::deque<UBJ::Object>;
 
@@ -47,7 +49,7 @@ class VirtualTableModule
 public:
 
     bool create(
-            Store *storage,
+            Store$ store,
             const std::string &blobTable,
             const std::string &name,
             uint32_t type,
@@ -129,7 +131,7 @@ private:
 
 private:
 
-    Store *m_store;
+    Store$ m_store;
 
     uint32_t m_type;
 
@@ -150,8 +152,6 @@ private:
 
 // ============================================================ //
 
-}
-
-}
+}}}
 
 #endif

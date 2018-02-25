@@ -27,7 +27,7 @@
 #ifndef CONFIG_REQUEST_H_
 #define CONFIG_REQUEST_H_
 
-#include "Zway/core/request.h"
+#include "Zway/request.h"
 
 namespace Zway {
 

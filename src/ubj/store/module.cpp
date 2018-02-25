@@ -24,10 +24,10 @@
 //
 // ============================================================ //
 
-#include "Zway/core/memorybuffer.h"
-#include "Zway/store/ubj/store.h"
+#include "Zway/memorybuffer.h"
+#include "Zway/ubj/store/store.h"
 
-namespace Zway { namespace UBJ {
+namespace Zway { namespace UBJ { namespace Store {
 
 // ============================================================ //
 
@@ -44,7 +44,7 @@ namespace Zway { namespace UBJ {
  */
 
 bool VirtualTableModule::create(
-        Store *store,
+        Store$ store,
         const std::string &blobTable,
         const std::string &name,
         uint32_t type,
@@ -1006,6 +1006,4 @@ int VirtualTableModule::xUpdate(sqlite3_vtab *pVTab, int argc, sqlite3_value **a
 
 // ============================================================ //
 
-}
-
-}
+}}}

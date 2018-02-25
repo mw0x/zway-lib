@@ -26,11 +26,11 @@
 
 #include "Zway/request/createaccountrequest.h"
 #include "Zway/request/requestevent.h"
-#include "Zway/core/crypto/digest.h"
-#include "Zway/core/crypto/random.h"
-#include "Zway/core/crypto/rsa.h"
-#include "Zway/core/memorybuffer.h"
-#include "Zway/store/store.h"
+#include "Zway/crypto/digest.h"
+#include "Zway/crypto/random.h"
+#include "Zway/crypto/rsa.h"
+#include "Zway/memorybuffer.h"
+#include "Zway/store.h"
 #include "Zway/client.h"
 
 

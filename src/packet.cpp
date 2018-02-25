@@ -24,8 +24,8 @@
 //
 // ============================================================ //
 
-#include "Zway/core/packet.h"
-#include "Zway/core/memorybuffer.h"
+#include "Zway/packet.h"
+#include "Zway/memorybuffer.h"
 
 #include <cstring>
 

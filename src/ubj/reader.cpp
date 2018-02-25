@@ -24,8 +24,8 @@
 //
 // ============================================================ //
 
-#include "Zway/core/ubj/reader.h"
-#include "Zway/core/memorybuffer.h"
+#include "Zway/ubj/reader.h"
+#include "Zway/memorybuffer.h"
 
 namespace Zway { namespace UBJ {
 

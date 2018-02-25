@@ -27,7 +27,7 @@
 #ifndef ZWAY_CORE_BUFFER_SENDER_H_
 #define ZWAY_CORE_BUFFER_SENDER_H_
 
-#include "Zway/core/streamsender.h"
+#include "Zway/streamsender.h"
 
 namespace Zway {
 

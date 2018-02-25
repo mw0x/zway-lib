@@ -24,11 +24,11 @@
 //
 // ============================================================ //
 
-#include "Zway/core/ubj/value.h"
-#include "Zway/core/ubj/reader.h"
-#include "Zway/core/ubj/writer.h"
-#include "Zway/core/ubj/dumper.h"
-#include "Zway/core/memorybuffer.h"
+#include "Zway/ubj/value.h"
+#include "Zway/ubj/reader.h"
+#include "Zway/ubj/writer.h"
+#include "Zway/ubj/dumper.h"
+#include "Zway/memorybuffer.h"
 
 #include <cstring>
 #include <sstream>

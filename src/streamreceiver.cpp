@@ -24,7 +24,7 @@
 //
 // ============================================================ //
 
-#include "Zway/core/streamreceiver.h"
+#include "Zway/streamreceiver.h"
 
 namespace Zway {
 

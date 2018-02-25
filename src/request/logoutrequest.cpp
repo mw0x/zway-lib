@@ -26,7 +26,7 @@
 
 #include "Zway/request/logoutrequest.h"
 #include "Zway/request/requestevent.h"
-#include "Zway/store/store.h"
+#include "Zway/store.h"
 #include "Zway/client.h"
 
 namespace Zway {

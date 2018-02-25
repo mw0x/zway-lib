@@ -24,8 +24,8 @@
 //
 // ============================================================ //
 
-#include "Zway/core/request.h"
-#include "Zway/core/ubjsender.h"
+#include "Zway/request.h"
+#include "Zway/ubjsender.h"
 
 namespace Zway {
 
