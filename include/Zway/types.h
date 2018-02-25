@@ -10,7 +10,7 @@
 //
 //   open-source, cross-platform, crypto-messenger
 //
-//   Copyright (C) 2016 Marc Weiler
+//   Copyright (C) 2018 Marc Weiler
 //
 //   This library is free software; you can redistribute it and/or
 //   modify it under the terms of the GNU Lesser General Public
@@ -27,10 +27,14 @@
 #ifndef ZWAY_TYPES_H_
 #define ZWAY_TYPES_H_
 
+// ============================================================ //
+
 #include <memory>
 
 #define USING_SHARED_PTR(x)\
 class x;\
 using x ## $ = std::shared_ptr<x>;
+
+// ============================================================ //
 
 #endif
