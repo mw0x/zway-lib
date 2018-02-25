@@ -39,13 +39,13 @@ namespace Zway {
  * @return
  */
 
-EVENT Event::create(
+Event$ Event::create(
         Type type,
         const UBJ::Object &data,
         const UBJ::Object &error,
-        EVENT_CALLBACK callback)
+        EventCallback callback)
 {
-    return EVENT(new Event(type, data, error, callback));
+    return Event$(new Event(type, data, error, callback));
 }
 
 /**
@@ -60,7 +60,7 @@ Event::Event(
         Type type,
         const UBJ::Object &data,
         const UBJ::Object &error,
-        EVENT_CALLBACK callback)
+        EventCallback callback)
     : m_type(type),
       m_data(data),
       m_error(error),

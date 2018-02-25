@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/core/buffersender.h"
+#include "Zway/core/memorybuffer.h"
 
 namespace Zway {
 
@@ -39,13 +40,13 @@ namespace Zway {
  * @return
  */
 
-BUFFER_SENDER BufferSender::create(
+BufferSender$ BufferSender::create(
         uint32_t id,
         Packet::StreamType type,
-        BUFFER buffer,
-        STREAM_SENDER_CALLBACK callback)
+        Buffer$ buffer,
+        StreamSenderCallback callback)
 {
-    BUFFER_SENDER sender(new BufferSender(id, type, buffer, callback));
+    BufferSender$ sender(new BufferSender(id, type, buffer, callback));
 
     if (!sender->init()) {
 
@@ -65,9 +66,9 @@ BUFFER_SENDER BufferSender::create(
 
 BufferSender::BufferSender(
         uint32_t id,
-        Packet::StreamType
-        type, BUFFER buffer,
-        STREAM_SENDER_CALLBACK callback)
+        Packet::StreamType type,
+        Buffer$ buffer,
+        StreamSenderCallback callback)
     : StreamSender(id, type, 0, callback),
       m_buffer(buffer)
 {
@@ -102,7 +103,7 @@ bool BufferSender::init()
  * @return
  */
 
-bool BufferSender::preparePacket(PACKET &pkt, uint32_t bytesToSend, uint32_t bytesSent)
+bool BufferSender::preparePacket(Packet$ &pkt, uint32_t bytesToSend, uint32_t bytesSent)
 {
     if (!StreamSender::preparePacket(pkt, bytesToSend, bytesSent)) {
 

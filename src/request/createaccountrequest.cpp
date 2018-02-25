@@ -25,8 +25,14 @@
 // ============================================================ //
 
 #include "Zway/request/createaccountrequest.h"
+#include "Zway/request/requestevent.h"
+#include "Zway/core/crypto/digest.h"
+#include "Zway/core/crypto/random.h"
+#include "Zway/core/crypto/rsa.h"
+#include "Zway/core/memorybuffer.h"
 #include "Zway/store/store.h"
 #include "Zway/client.h"
+
 
 namespace Zway {
 
@@ -40,12 +46,12 @@ namespace Zway {
  * @return
  */
 
-CREATE_ACCOUNT_REQUEST CreateAccountRequest::create(
-        CLIENT client,
+CreateAccountRequest$ CreateAccountRequest::create(
+        Client$ client,
         const UBJ::Object &args,
-        REQUEST_CALLBACK callback)
+        RequestCallback callback)
 {
-    CREATE_ACCOUNT_REQUEST request(new CreateAccountRequest(client, args, callback));
+    CreateAccountRequest$ request(new CreateAccountRequest(client, args, callback));
 
     if (!request->init()) {
 
@@ -63,9 +69,9 @@ CREATE_ACCOUNT_REQUEST CreateAccountRequest::create(
  */
 
 CreateAccountRequest::CreateAccountRequest(
-        CLIENT client,
+        Client$ client,
         const UBJ::Object &args,
-        REQUEST_CALLBACK callback)
+        RequestCallback callback)
     : Request(CreateAccount, args, DEFAULT_TIMEOUT, callback),
       m_client(client)
 {
@@ -95,7 +101,7 @@ bool CreateAccountRequest::init()
 
     // create password
 
-    BUFFER password = Buffer::create(nullptr, 32);
+    MemoryBuffer$ password = MemoryBuffer::create(nullptr, 32);
 
     if (!Crypto::Random::random(password->data(), password->size(), Crypto::Random::Strong)) {
 
@@ -156,7 +162,7 @@ bool CreateAccountRequest::processResponse(const UBJ::Object &response)
 
         m_storeFilename = m_args["storeDir"].toStr() + "/" + Crypto::Digest::digestHexStr(m_head["name"].buffer()) + ".store";
 
-        STORE store = Store::create(m_storeFilename, m_storePassword, data);
+        Store$ store = Store::create(m_storeFilename, m_storePassword, data);
 
         if (store) {
 

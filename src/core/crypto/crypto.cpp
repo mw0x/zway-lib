@@ -25,6 +25,8 @@
 // ============================================================ //
 
 #include "Zway/core/crypto/crypto.h"
+#include "Zway/core/crypto/random.h"
+#include "Zway/core/memorybuffer.h"
 
 namespace Zway { namespace Crypto {
 
@@ -98,7 +100,7 @@ std::string hexStr(uint8_t* data, uint32_t size)
  * @return
  */
 
-std::string hexStr(BUFFER data)
+std::string hexStr(MemoryBuffer$ data)
 {
     std::string r;
 

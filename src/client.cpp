@@ -24,9 +24,12 @@
 //
 // ============================================================ //
 
-#include "Zway/client.h"
+#include "Zway/core/crypto/crypto.h"
+#include "Zway/core/crypto/rsa.h"
+#include "Zway/core/memorybuffer.h"
 #include "Zway/event/eventhandler.h"
 #include "Zway/message/message.h"
+#include "Zway/message/resource.h"
 #include "Zway/message/resourcereceiver.h"
 #include "Zway/request/createaccountrequest.h"
 #include "Zway/request/loginrequest.h"
@@ -38,6 +41,9 @@
 #include "Zway/request/rejectcontactrequest.h"
 #include "Zway/request/dispatchrequest.h"
 #include "Zway/request/pushrequest.h"
+#include "Zway/request/requestevent.h"
+#include "Zway/store/store.h"
+#include "Zway/client.h"
 
 #if !defined _WIN32
 #include <arpa/inet.h>
@@ -46,9 +52,9 @@
 #include <fcntl.h>
 #endif
 
-#include <gnutls/gnutls.h>
-
 #include <iostream>
+
+#include <gnutls/gnutls.h>
 
 namespace Zway {
 
@@ -115,9 +121,9 @@ void Client::cleanup()
  * @return
  */
 
-CLIENT Client::create(EVENT_HANDLER handler, EVENT_HANDLER_CALLBACK callback)
+Client$ Client::create(EventHandler$ handler, EventHandlerCallback callback)
 {
-    CLIENT client(new Client(handler));
+    Client$ client(new Client(handler));
 
     if (handler && callback) {
 
@@ -132,7 +138,7 @@ CLIENT Client::create(EVENT_HANDLER handler, EVENT_HANDLER_CALLBACK callback)
  * @param handler
  */
 
-Client::Client(EVENT_HANDLER handler)
+Client::Client(EventHandler$ handler)
     : m_status(Closed),
       m_socket(-1),
       m_session(nullptr),
@@ -266,7 +272,7 @@ bool Client::close()
  * @param store
  */
 
-void Client::setStore(STORE store)
+void Client::setStore(Store$ store)
 {
     m_store = store;
 }
@@ -276,7 +282,7 @@ void Client::setStore(STORE store)
  * @param handler
  */
 
-void Client::setEventHandler(EVENT_HANDLER handler)
+void Client::setEventHandler(EventHandler$ handler)
 {
     m_eventHandler = handler;
 }
@@ -288,9 +294,9 @@ void Client::setEventHandler(EVENT_HANDLER handler)
  * @return
  */
 
-bool Client::request(const UBJ::Object &args, REQUEST_CALLBACK callback)
+bool Client::request(const UBJ::Object &args, RequestCallback callback)
 {
-    REQUEST request;
+    Request$ request;
 
     switch (args["requestType"].toInt()) {
     case Request::Dispatch:
@@ -336,7 +342,7 @@ bool Client::request(const UBJ::Object &args, REQUEST_CALLBACK callback)
  * @param immediately
  */
 
-void Client::postEvent(EVENT event, bool immediately)
+void Client::postEvent(Event$ event, bool immediately)
 {
     if (m_eventHandler) {
 
@@ -350,7 +356,7 @@ void Client::postEvent(EVENT event, bool immediately)
  * @return
  */
 
-bool Client::postRequest(REQUEST request)
+bool Client::postRequest(Request$ request)
 {
     if (request) {
 
@@ -371,7 +377,7 @@ bool Client::postRequest(REQUEST request)
  * @return
  */
 
-bool Client::postMessage(MESSAGE message)
+bool Client::postMessage(Message$ message)
 {
     if (!m_store) {
 
@@ -388,7 +394,7 @@ bool Client::postMessage(MESSAGE message)
     // create request
 
     auto request = PushRequest::create(shared_from_this(), message, 0,
-                [] (REQUEST_EVENT event, REQUEST req) {
+                [] (RequestEvent$ event, Request$ req) {
 
                     if (event->error().empty()) {
 
@@ -421,7 +427,7 @@ bool Client::postMessage(MESSAGE message)
  * @return
  */
 
-bool Client::addStreamSender(STREAM_SENDER sender)
+bool Client::addStreamSender(StreamSender$ sender)
 {
     if (!Engine::addStreamSender(sender)) {
 
@@ -450,7 +456,7 @@ Client::Status Client::status()
  * @return
  */
 
-STORE Client::store()
+Store$ Client::store()
 {
     return m_store;
 }
@@ -460,7 +466,7 @@ STORE Client::store()
  * @return
  */
 
-EVENT_HANDLER Client::eventHandler()
+EventHandler$ Client::eventHandler()
 {
     return m_eventHandler;
 }
@@ -1076,7 +1082,7 @@ bool Client::processIncomingRequest(const UBJ::Object &request)
  * @return
  */
 
-STREAM_RECEIVER Client::createStreamReceiver(const Packet &packet)
+StreamReceiver$ Client::createStreamReceiver(const Packet &packet)
 {
     if (packet.streamType() == Packet::Resource) {
 
@@ -1112,17 +1118,17 @@ STREAM_RECEIVER Client::createStreamReceiver(const Packet &packet)
 
         // extract key
 
-        BUFFER key = request["data"]["key"].buffer();
+        MemoryBuffer$ key = request["data"]["key"].buffer();
 
         // generate salt
 
-        BUFFER salt = PushRequest::resourceSalt(request["data"]["salt"].buffer(), resourceId);
+        MemoryBuffer$ salt = PushRequest::resourceSalt(request["data"]["salt"].buffer(), resourceId);
 
         // create resource receiver
 
-        RESOURCE_RECEIVER receiver = ResourceReceiver::create(
+        ResourceReceiver$ receiver = ResourceReceiver::create(
                     packet, key, salt,
-                    [this, request] (BUFFER_RECEIVER receiver, BUFFER buffer, uint32_t bytesReceived) {
+                    [this, request] (BufferReceiver$ receiver, MemoryBuffer$ buffer, uint32_t bytesReceived) {
 
                         if (receiver->status() == ResourceReceiver::Completed) {
 
@@ -1268,7 +1274,7 @@ STREAM_RECEIVER Client::createStreamReceiver(const Packet &packet)
     }
     else {
 
-        STREAM_RECEIVER receiver = Engine::createStreamReceiver(packet);
+        StreamReceiver$ receiver = Engine::createStreamReceiver(packet);
 
         return receiver;
     }
@@ -1282,7 +1288,7 @@ STREAM_RECEIVER Client::createStreamReceiver(const Packet &packet)
  * @return
  */
 
-bool Client::processRequestTimeout(REQUEST request)
+bool Client::processRequestTimeout(Request$ request)
 {
     postEvent(RequestEvent::create(Event::RequestTimeout, request, {}, ERROR_UBJ("Request timeout")));
 
@@ -1547,7 +1553,7 @@ bool Client::processPush(const UBJ::Object &request)
 
         // decrypt message key
 
-        BUFFER key = Crypto::RSA::decrypt(m_store->privateKey(), request["key"].buffer());
+        MemoryBuffer$ key = Crypto::RSA::decrypt(m_store->privateKey(), request["key"].buffer());
 
         if (!key) {
 
@@ -1558,7 +1564,7 @@ bool Client::processPush(const UBJ::Object &request)
             return false;
         }
 
-        BUFFER salt = request["salt"].buffer();
+        MemoryBuffer$ salt = request["salt"].buffer();
 
         if (!salt) {
 
@@ -1573,7 +1579,7 @@ bool Client::processPush(const UBJ::Object &request)
 
         UBJ::Object meta;
 
-        BUFFER metaBuffer = request["meta"].buffer();
+        MemoryBuffer$ metaBuffer = request["meta"].buffer();
 
         if (!metaBuffer) {
 
@@ -1772,7 +1778,7 @@ uint32_t Sender::numPackets()
  * @param packet
  */
 
-void Sender::process(PACKET &packet)
+void Sender::process(Packet$ &packet)
 {
     sendPacket(packet);
 }
@@ -1788,7 +1794,7 @@ bool Sender::getElements()
 
         MutexLocker lock(m_queue);
 
-        m_client->processStreamSenders(true, [this] (PACKET pkt) -> bool {
+        m_client->processStreamSenders(true, [this] (Packet$ pkt) -> bool {
 
             m_queue->push_back(pkt);
 
@@ -1810,7 +1816,7 @@ bool Sender::getElements()
  * @return
  */
 
-uint32_t Sender::sendPacket(PACKET pkt)
+uint32_t Sender::sendPacket(Packet$ pkt)
 {
     uint32_t s = 0;
 
@@ -2013,7 +2019,7 @@ uint32_t Receiver::recvPacket(Packet &pkt)
             return -1;
         }
 
-        BUFFER body = Buffer::create(nullptr, pkt.bodySize());
+        MemoryBuffer$ body = MemoryBuffer::create(nullptr, pkt.bodySize());
 
         if (!body) {
 

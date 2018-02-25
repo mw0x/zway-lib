@@ -24,6 +24,7 @@
 //
 // ============================================================ //
 
+#include "Zway/core/memorybuffer.h"
 #include "Zway/store/ubjstore.h"
 
 namespace Zway { namespace UBJ {
@@ -162,7 +163,7 @@ bool VirtualTableModule::createIndex(const std::string &column, UBJ::Object &ind
 
         uint32_t id = v.toInt();
 
-        BUFFER nodeData = m_store->getBlobData(m_blobTable, id);
+        MemoryBuffer$ nodeData = m_store->getBlobData(m_blobTable, id);
 
         if (nodeData) {
 
@@ -681,7 +682,7 @@ int VirtualTableModule::xFilter(sqlite3_vtab_cursor *pCur, int idxNum, const cha
 
         uint32_t id = it.toInt();
 
-        BUFFER nodeData = vtab->module->m_store->getBlobData(vtab->module->m_blobTable, id);
+        MemoryBuffer$ nodeData = vtab->module->m_store->getBlobData(vtab->module->m_blobTable, id);
 
         if (nodeData) {
 
@@ -740,7 +741,7 @@ int VirtualTableModule::xColumn(sqlite3_vtab_cursor *pCur, sqlite3_context* pCtx
         case UBJ_OBJECT:
         case UBJ_ARRAY: {
 
-            BUFFER buf = UBJ::Value::write(val);
+            MemoryBuffer$ buf = UBJ::Value::write(val);
 
             if (buf) {
 
@@ -882,7 +883,7 @@ int VirtualTableModule::xUpdate(sqlite3_vtab *pVTab, int argc, sqlite3_value **a
 
         obj["_$type"] = vtab->module->m_type;
 
-        BUFFER data = UBJ::Value::write(obj);
+        MemoryBuffer$ data = UBJ::Value::write(obj);
 
         if (!data) {
 

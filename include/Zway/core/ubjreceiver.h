@@ -32,6 +32,11 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(UbjReceiver)
+USING_SHARED_PTR(MemoryBuffer)
+
+using UbjReceiverCallback = std::function<void (UbjReceiver$, UBJ::Value&)>;
+
 // ============================================================ //
 
 /**
@@ -42,13 +47,13 @@ class UbjReceiver : public BufferReceiver
 {
 public:
 
-    static UBJ_RECEIVER create(const Packet &pkt, UBJ_RECEIVER_CALLBACK callback = nullptr);
+    static UbjReceiver$ create(const Packet &pkt, UbjReceiverCallback callback = nullptr);
 
     Zway::UBJ::Value &value();
 
 protected:
 
-    UbjReceiver(UBJ_RECEIVER_CALLBACK callback = nullptr);
+    UbjReceiver(UbjReceiverCallback callback = nullptr);
 
     bool processPacket(Packet &pkt);
 
@@ -58,7 +63,7 @@ protected:
 
     Zway::UBJ::Value m_value;
 
-    UBJ_RECEIVER_CALLBACK m_callback;
+    UbjReceiverCallback m_callback;
 
 };
 

@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/request/logoutrequest.h"
+#include "Zway/request/requestevent.h"
 #include "Zway/store/store.h"
 #include "Zway/client.h"
 
@@ -39,9 +40,9 @@ namespace Zway {
  * @return
  */
 
-LOGOUT_REQUEST LogoutRequest::create(CLIENT client, REQUEST_CALLBACK callback)
+LogoutRequest$ LogoutRequest::create(Client$ client, RequestCallback callback)
 {
-    LOGOUT_REQUEST request(new LogoutRequest(client, callback));
+    LogoutRequest$ request(new LogoutRequest(client, callback));
 
     if (!request->init()) {
 
@@ -57,7 +58,7 @@ LOGOUT_REQUEST LogoutRequest::create(CLIENT client, REQUEST_CALLBACK callback)
  * @param callback
  */
 
-LogoutRequest::LogoutRequest(CLIENT client, REQUEST_CALLBACK callback)
+LogoutRequest::LogoutRequest(Client$ client, RequestCallback callback)
     : Request(Logout, {}, DEFAULT_TIMEOUT, callback),
       m_client(client)
 {

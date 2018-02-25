@@ -27,9 +27,13 @@
 #ifndef ZWAY_CRYPTO_DIGEST_H_
 #define ZWAY_CRYPTO_DIGEST_H_
 
-#include "Zway/core/buffer.h"
+#include "Zway/types.h"
 
-namespace Zway { namespace Crypto {
+namespace Zway {
+
+USING_SHARED_PTR(MemoryBuffer)
+
+namespace Crypto {
 
 // ============================================================ //
 
@@ -57,21 +61,21 @@ public:
 
     void update(uint8_t* data, uint32_t size);
 
-    void update(BUFFER buf);
+    void update(MemoryBuffer$ buf);
 
     void result(uint8_t* digest, uint32_t size);
 
-    BUFFER result(uint32_t size);
+    MemoryBuffer$ result(uint32_t size);
 
-    BUFFER result();
+    MemoryBuffer$ result();
 
-    static BUFFER digest(uint8_t* data, uint32_t size, DigestType type = DIGEST_MD5);
+    static MemoryBuffer$ digest(uint8_t* data, uint32_t size, DigestType type = DIGEST_MD5);
 
-    static BUFFER digest(BUFFER data, DigestType type = DIGEST_MD5);
+    static MemoryBuffer$ digest(MemoryBuffer$ data, DigestType type = DIGEST_MD5);
 
     static std::string digestHexStr(uint8_t *data, uint32_t size, DigestType type = DIGEST_MD5);
 
-    static std::string digestHexStr(BUFFER data, DigestType type = DIGEST_MD5);
+    static std::string digestHexStr(MemoryBuffer$ data, DigestType type = DIGEST_MD5);
 
     static uint32_t size(DigestType type);
 

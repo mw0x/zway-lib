@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/core/packet.h"
+#include "Zway/core/memorybuffer.h"
 
 #include <cstring>
 
@@ -40,9 +41,9 @@ const uint32_t MAX_PACKET_BODY = 65536;
  * @return
  */
 
-PACKET Packet::create(uint32_t id)
+Packet$ Packet::create(uint32_t id)
 {
-    return PACKET(new Packet(id));
+    return Packet$(new Packet(id));
 }
 
 /**
@@ -142,7 +143,7 @@ uint8_t* Packet::bodyData()
  * @return
  */
 
-BUFFER Packet::body()
+MemoryBuffer$ Packet::body()
 {
     return m_body;
 }
@@ -213,7 +214,7 @@ void Packet::setBodySize(uint32_t size)
  * @param size
  */
 
-void Packet::setBody(BUFFER body, uint32_t size)
+void Packet::setBody(MemoryBuffer$ body, uint32_t size)
 {
     if (body) {
 

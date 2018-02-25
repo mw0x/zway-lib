@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/request/loginrequest.h"
+#include "Zway/request/requestevent.h"
 #include "Zway/store/store.h"
 #include "Zway/client.h"
 
@@ -39,9 +40,9 @@ namespace Zway {
  * @return
  */
 
-LOGIN_REQUEST LoginRequest::create(CLIENT client, REQUEST_CALLBACK callback)
+LoginRequest$ LoginRequest::create(Client$ client, RequestCallback callback)
 {
-    LOGIN_REQUEST request(new LoginRequest(client, callback));
+    LoginRequest$ request(new LoginRequest(client, callback));
 
     if (!request->init()) {
 
@@ -57,7 +58,7 @@ LOGIN_REQUEST LoginRequest::create(CLIENT client, REQUEST_CALLBACK callback)
  * @param callback
  */
 
-LoginRequest::LoginRequest(CLIENT client, REQUEST_CALLBACK callback)
+LoginRequest::LoginRequest(Client$ client, RequestCallback callback)
     : Request(Login, {}, DEFAULT_TIMEOUT, callback),
       m_client(client)
 {

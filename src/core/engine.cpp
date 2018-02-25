@@ -26,6 +26,8 @@
 
 #include "Zway/core/engine.h"
 #include "Zway/core/ubjreceiver.h"
+#include "Zway/core/ubjsender.h"
+#include "Zway/core/memorybuffer.h"
 
 namespace Zway {
 
@@ -46,7 +48,7 @@ Engine::~Engine()
 
 void Engine::process()
 {
-    std::list<REQUEST> remove;
+    std::list<Request$> remove;
 
     {
         MutexLocker locker(m_requests);
@@ -57,7 +59,7 @@ void Engine::process()
 
             for (auto &it : *m_requests) {
 
-                REQUEST &req = it.second;
+                Request$ &req = it.second;
 
                 if (req->checkTimeout(t)) {
 
@@ -117,7 +119,7 @@ void Engine::finish()
  * @return
  */
 
-bool Engine::addStreamSender(STREAM_SENDER sender)
+bool Engine::addStreamSender(StreamSender$ sender)
 {
     if (!sender) {
 
@@ -158,7 +160,7 @@ bool Engine::addUbjSender(uint32_t id, Packet::StreamType type, const UBJ::Value
  * @return
  */
 
-bool Engine::postRequest(REQUEST request)
+bool Engine::postRequest(Request$ request)
 {
     if (!request) {
 
@@ -172,7 +174,7 @@ bool Engine::postRequest(REQUEST request)
     }
 
 
-    STREAM_SENDER sender = request->start();
+    StreamSender$ sender = request->start();
 
     if (!sender) {
 
@@ -285,19 +287,19 @@ uint32_t Engine::numStreamSenders()
  * @return
  */
 
-STREAM_RECEIVER Engine::createStreamReceiver(const Packet &pkt)
+StreamReceiver$ Engine::createStreamReceiver(const Packet &pkt)
 {
     if (pkt.streamType() == Packet::Request) {
 
         // create request receiver
 
-        return UbjReceiver::create(pkt, [this] (UBJ_RECEIVER receiver, UBJ::Value &data) {
+        return UbjReceiver::create(pkt, [this] (UbjReceiver$ receiver, UBJ::Value &data) {
 
             UBJ::Object head(data);
 
             if (receiver->status() == StreamReceiver::Completed) {
 
-                REQUEST request;
+                Request$ request;
 
                 if (head.hasField("requestId")) {
 
@@ -362,7 +364,7 @@ bool Engine::processIncomingPacket(Packet &pkt)
 {
     MutexLocker locker(m_streamReceivers);
 
-    STREAM_RECEIVER receiver;
+    StreamReceiver$ receiver;
 
     if (m_streamReceivers->find(pkt.streamId()) == m_streamReceivers->end()) {
 
@@ -425,7 +427,7 @@ bool Engine::processIncomingRequest(const UBJ::Object &request)
  * @return
  */
 
-bool Engine::processRequestTimeout(REQUEST request)
+bool Engine::processRequestTimeout(Request$ request)
 {
     return true;
 }
@@ -438,14 +440,14 @@ bool Engine::processRequestTimeout(REQUEST request)
  * @return
  */
 
-int32_t Engine::processStreamSenders(bool copyBody, std::function<bool (PACKET)> packetCallback)
+int32_t Engine::processStreamSenders(bool copyBody, std::function<bool (Packet$)> packetCallback)
 {
     int32_t res=0;
 
     // get snapshot of stream senders in order to prevent
     // deadlocks when callbacks post new ones
 
-    STREAM_SENDER_LIST senders;
+    StreamSenderList senders;
 
     {
         MutexLocker locker(m_streamSenders);
@@ -460,7 +462,7 @@ int32_t Engine::processStreamSenders(bool copyBody, std::function<bool (PACKET)>
 
     for (auto &sender : senders) {
 
-        PACKET pkt;
+        Packet$ pkt;
 
         if (sender->process(pkt)) {
 
@@ -504,7 +506,7 @@ int32_t Engine::processStreamSenders(bool copyBody, std::function<bool (PACKET)>
  * @param sender
  */
 
-void Engine::removeStreamSender(STREAM_SENDER sender)
+void Engine::removeStreamSender(StreamSender$ sender)
 {
     MutexLocker locker(m_streamSenders);
 

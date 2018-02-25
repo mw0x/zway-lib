@@ -27,11 +27,15 @@
 #ifndef ZWAY_UBJ_STORE_H_
 #define ZWAY_UBJ_STORE_H_
 
-#include "Zway/core/crypto/crypto.h"
-#include <Zway/core/thread/handler.h>
+#include "Zway/core/buffer.h"
+#include "Zway/core/crypto/aes.h"
+#include "Zway/core/thread/handler.h"
 #include "Zway/store/ubjmodule.h"
 
 namespace Zway { namespace UBJ {
+
+USING_SHARED_PTR(Store)
+USING_SHARED_PTR(StoreHandler)
 
 // ============================================================ //
 
@@ -181,21 +185,23 @@ public:
 
         virtual ~Blob();
 
-        bool open(const std::string &table, uint64_t id, bool readOnly, bool meta, bool mode=true, uint32_t size=0, BUFFER salt=nullptr);
+        bool open(const std::string &table, uint64_t id, bool readOnly, bool meta, bool mode=true, uint32_t size=0, MemoryBuffer$ salt=nullptr);
 
         bool read(uint8_t* data, uint32_t size, uint32_t offset=0, uint32_t *bytesRead=nullptr);
 
-        bool read(BUFFER data, uint32_t size, uint32_t offset=0, uint32_t *bytesRead=nullptr);
+        bool read(MemoryBuffer$ data, uint32_t size, uint32_t offset=0, uint32_t *bytesRead=nullptr);
 
         bool write(const uint8_t *data, uint32_t size, uint32_t offset=0, uint32_t *bytesWritten=nullptr);
 
-        bool write(BUFFER data, uint32_t size=0, uint32_t offset=0, uint32_t *bytesWritten=nullptr);
+        bool write(MemoryBuffer$ data, uint32_t size=0, uint32_t offset=0, uint32_t *bytesWritten=nullptr);
 
         bool close();
 
         uint64_t id();
 
         Crypto::AES &aes();
+
+        uint32_t size();
 
     protected:
 
@@ -207,7 +213,7 @@ public:
 
         void *m_blob;
 
-        BUFFER m_salt;
+        MemoryBuffer$ m_salt;
 
         Crypto::AES m_aes;
     };
@@ -517,19 +523,19 @@ public:
 
     uint64_t createBlob(const std::string &table, uint32_t size, bool encrypt=true);
 
-    uint64_t createBlob(const std::string &table, BUFFER data, bool encrypt=true);
+    uint64_t createBlob(const std::string &table, MemoryBuffer$ data, bool encrypt=true);
 
     uint64_t createBlob(const std::string &table, const Object &data, bool encrypt=true);
 
-    BLOB openBlob(const std::string &table, uint64_t id, bool readOnly=true, bool meta=true, bool mode=true, uint32_t size=0, BUFFER salt=nullptr);
+    BLOB openBlob(const std::string &table, uint64_t id, bool readOnly=true, bool meta=true, bool mode=true, uint32_t size=0, MemoryBuffer$ salt=nullptr);
 
-    uint32_t updateBlobData(const std::string &table, uint64_t id, BUFFER data, bool encrypt=true);
+    uint32_t updateBlobData(const std::string &table, uint64_t id, MemoryBuffer$ data, bool encrypt=true);
 
     uint32_t updateBlobData(const std::string &table, uint64_t id, const Object &data, bool encrypt=true);
 
     bool removeBlob(const std::string &table, uint64_t id);
 
-    BUFFER getBlobData(const std::string &table, uint64_t id);
+    MemoryBuffer$ getBlobData(const std::string &table, uint64_t id);
 
     bool getBlobData(const std::string &table, uint64_t id, Object &data);
 
@@ -574,9 +580,9 @@ protected:
 
     sqlite3 *m_db;
 
-    BUFFER m_key;
+    MemoryBuffer$ m_key;
 
-    STORE_HANDLER m_handler;
+    StoreHandler$ m_handler;
 
     std::map<std::string, uint32_t> m_indexBlobs;
 
@@ -595,11 +601,11 @@ class StoreHandler : public Handler<Store::ACTION>
 {
 public:
 
-    static STORE_HANDLER create(const STORE &store);
+    static StoreHandler$ create(const Store$ &store);
 
 protected:
 
-    StoreHandler(const STORE &store);
+    StoreHandler(const Store$ &store);
 
     void process(Store::ACTION &action);
 
@@ -607,7 +613,7 @@ protected:
 
 protected:
 
-    STORE m_store;
+    Store$ m_store;
 };
 
 // ============================================================ //

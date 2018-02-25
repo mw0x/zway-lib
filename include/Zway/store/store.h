@@ -31,6 +31,11 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Store)
+USING_SHARED_PTR(Message)
+
+using MessageList = std::deque<Message$>;
+
 // ============================================================ //
 
 class Store : public UBJ::Store
@@ -73,16 +78,16 @@ public:
     };
 
 
-    static STORE create(const std::string &filename, const std::string &password, const UBJ::Object &data = UBJ::Object(), bool handler=false);
+    static Store$ create(const std::string &filename, const std::string &password, const UBJ::Object &data = UBJ::Object(), bool handler=false);
 
-    static STORE unlock(const std::string &filename, const std::string &password, bool handler=false);
+    static Store$ unlock(const std::string &filename, const std::string &password, bool handler=false);
 
 
     uint32_t accountId();
 
     std::string accountName();
 
-    BUFFER accountPassword();
+    MemoryBuffer$ accountPassword();
 
     UBJ::Object &privateKey();
 
@@ -96,7 +101,7 @@ public:
 
     uint64_t createVfsNode(VfsNodeType type, const std::string &name, uint64_t parent=0, const UBJ::Object &data={});
 
-    BUFFER getVfsNodeData(uint64_t id);
+    MemoryBuffer$ getVfsNodeData(uint64_t id);
 
     bool deleteVfsNode(uint64_t id, bool recursive=true);
 
@@ -116,7 +121,7 @@ public:
     bool deleteHistory(uint64_t history);
 
 
-    MESSAGE_LIST getMessages(uint32_t history);
+    MessageList getMessages(uint32_t history);
 
 
     uint32_t updateInbox(uint32_t contactId, const UBJ::Array &inbox);
@@ -153,7 +158,7 @@ private:
 
     std::string m_accountName;
 
-    BUFFER m_accountPassword;
+    MemoryBuffer$ m_accountPassword;
 
     UBJ::Object m_privateKey;
 

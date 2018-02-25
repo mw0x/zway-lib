@@ -31,6 +31,9 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Client)
+USING_SHARED_PTR(RejectContactRequest)
+
 // ============================================================ //
 
 /**
@@ -41,25 +44,25 @@ class RejectContactRequest : public Request
 {
 public:
 
-    static REJECT_CONTACT_REQUEST create(
-            CLIENT client,
+    static RejectContactRequest$ create(
+            Client$ client,
             const UBJ::Object &args,
-            REQUEST_CALLBACK callback = nullptr);
+            RequestCallback callback = nullptr);
 
     bool processResponse(const UBJ::Object &response);
 
 protected:
 
     RejectContactRequest(
-            CLIENT client,
+            Client$ client,
             const UBJ::Object &args,
-            REQUEST_CALLBACK callback);
+            RequestCallback callback);
 
     bool init();
 
 protected:
 
-    CLIENT m_client;
+    Client$ m_client;
 };
 
 // ============================================================ //

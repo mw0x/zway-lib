@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/core/bufferreceiver.h"
+#include "Zway/core/memorybuffer.h"
 
 namespace Zway {
 
@@ -38,12 +39,12 @@ namespace Zway {
  * @return
  */
 
-BUFFER_RECEIVER BufferReceiver::create(
+BufferReceiver$ BufferReceiver::create(
         const Packet &pkt,
-        BUFFER buffer,
-        BUFFER_RECEIVER_CALLBACK callback)
+        MemoryBuffer$ buffer,
+        BufferReceiverCallback callback)
 {
-    BUFFER_RECEIVER receiver(new BufferReceiver(callback));
+    BufferReceiver$ receiver(new BufferReceiver(callback));
 
     if (!receiver->init(pkt, buffer)) {
 
@@ -58,7 +59,7 @@ BUFFER_RECEIVER BufferReceiver::create(
  * @param callback
  */
 
-BufferReceiver::BufferReceiver(BUFFER_RECEIVER_CALLBACK callback)
+BufferReceiver::BufferReceiver(BufferReceiverCallback callback)
     : StreamReceiver(),
       m_callback(callback),
       m_bytesReceived(0)
@@ -73,14 +74,14 @@ BufferReceiver::BufferReceiver(BUFFER_RECEIVER_CALLBACK callback)
  * @return
  */
 
-bool BufferReceiver::init(const Packet &pkt, BUFFER buffer)
+bool BufferReceiver::init(const Packet &pkt, MemoryBuffer$ buffer)
 {
     if (!StreamReceiver::init(pkt)) {
 
         return false;
     }
 
-    m_buffer = buffer ? buffer : Buffer::create(nullptr, pkt.parts() * MAX_PACKET_BODY);
+    m_buffer = buffer ? buffer : MemoryBuffer::create(nullptr, pkt.parts() * MAX_PACKET_BODY);
 
     if (!m_buffer) {
 
@@ -118,7 +119,7 @@ bool BufferReceiver::processPacket(Packet &pkt)
  * @return
  */
 
-BUFFER BufferReceiver::buffer()
+MemoryBuffer$ BufferReceiver::buffer()
 {
     return m_buffer;
 }

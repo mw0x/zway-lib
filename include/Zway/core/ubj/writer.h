@@ -41,7 +41,7 @@ class Writer
 {
 public:
 
-     BUFFER write(const Value &val);
+     MemoryBuffer$ write(const Value &val);
 
 private:
 

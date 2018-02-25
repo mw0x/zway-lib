@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/message/message.h"
+#include "Zway/message/resource.h"
 
 namespace Zway {
 
@@ -36,9 +37,9 @@ namespace Zway {
  * @return
  */
 
-MESSAGE Message::create(const UBJ::Object &msg)
+Message$ Message::create(const UBJ::Object &msg)
 {
-    return MESSAGE(new Message(msg));
+    return Message$(new Message(msg));
 }
 
 /**
@@ -199,7 +200,7 @@ std::string Message::text()
  * @return
  */
 
-RESOURCE Message::resourceById(uint32_t resourceId)
+Resource$ Message::resourceById(uint32_t resourceId)
 {
     for (auto &res : m_resources) {
 
@@ -217,7 +218,7 @@ RESOURCE Message::resourceById(uint32_t resourceId)
  * @param res
  */
 
-void Message::addResource(RESOURCE res)
+void Message::addResource(Resource$ res)
 {
     if (res) {
 
@@ -232,7 +233,7 @@ void Message::addResource(RESOURCE res)
  * @param resources
  */
 
-void Message::addResources(RESOURCE_LIST resources)
+void Message::addResources(ResourceList resources)
 {
     for (auto &res : resources) {
 
@@ -256,7 +257,7 @@ uint32_t Message::numResources()
  * @return
  */
 
-RESOURCE Message::resource(uint32_t index)
+Resource$ Message::resource(uint32_t index)
 {
     if (index < m_resources.size()) {
 

@@ -32,6 +32,11 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Client)
+USING_SHARED_PTR(EventHandler)
+
+using EventHandlerCallback = std::function<void (Client$, Event$)>;
+
 // ============================================================ //
 
 /**
@@ -42,13 +47,13 @@ class ClientEvent
 {
 public:
 
-    ClientEvent(CLIENT client, EVENT event)
+    ClientEvent(Client$ client, Event$ event)
         : m_client(client),
           m_event(event) {}
 
-    CLIENT m_client;
+    Client$ m_client;
 
-    EVENT m_event;
+    Event$ m_event;
 };
 
 /**
@@ -63,9 +68,9 @@ public:
 
     void clearHandlers();
 
-    void addHandler(CLIENT client, EVENT_HANDLER_CALLBACK handler);
+    void addHandler(Client$ client, EventHandlerCallback handler);
 
-    void removeHandler(CLIENT client);
+    void removeHandler(Client$ client);
 
 protected:
 
@@ -73,7 +78,7 @@ protected:
 
 protected:
 
-    ThreadSafe<std::map<CLIENT, EVENT_HANDLER_CALLBACK>> m_handlers;
+    ThreadSafe<std::map<Client$, EventHandlerCallback>> m_handlers;
 };
 
 // ============================================================ //

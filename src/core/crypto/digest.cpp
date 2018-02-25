@@ -27,8 +27,10 @@
 #include "Zway/core/crypto/crypto.h"
 #include "Zway/core/crypto/digest.h"
 #include "Zway/core/crypto/secmem.h"
+#include "Zway/core/memorybuffer.h"
 
-#include <string.h>
+#include <cstring>
+
 #include <nettle/md5.h>
 #include <nettle/sha2.h>
 
@@ -156,7 +158,7 @@ void Digest::update(uint8_t* data, uint32_t size)
  * @param buf
  */
 
-void Digest::update(BUFFER buf)
+void Digest::update(MemoryBuffer$ buf)
 {
     update(buf->data(), buf->size());
 }
@@ -194,11 +196,11 @@ void Digest::result(uint8_t* digest, uint32_t size)
  * @return
  */
 
-BUFFER Digest::result(uint32_t size)
+MemoryBuffer$ Digest::result(uint32_t size)
 {
     if (m_ctx) {
 
-        BUFFER buf = Buffer::create(nullptr, size);
+        MemoryBuffer$ buf = MemoryBuffer::create(nullptr, size);
 
         if (buf) {
 
@@ -216,7 +218,7 @@ BUFFER Digest::result(uint32_t size)
  * @return
  */
 
-BUFFER Digest::result()
+MemoryBuffer$ Digest::result()
 {
     return result(Digest::size(m_type));
 }
@@ -229,9 +231,9 @@ BUFFER Digest::result()
  * @return
  */
 
-BUFFER Digest::digest(uint8_t *data, uint32_t size, Digest::DigestType type)
+MemoryBuffer$ Digest::digest(uint8_t *data, uint32_t size, Digest::DigestType type)
 {
-    BUFFER res;
+    MemoryBuffer$ res;
 
     if (data && size) {
 
@@ -239,7 +241,7 @@ BUFFER Digest::digest(uint8_t *data, uint32_t size, Digest::DigestType type)
 
         d.update(data, size);
 
-        res = Buffer::create(nullptr, Digest::size(type));
+        res = MemoryBuffer::create(nullptr, Digest::size(type));
 
         if (res) {
 
@@ -257,9 +259,9 @@ BUFFER Digest::digest(uint8_t *data, uint32_t size, Digest::DigestType type)
  * @return
  */
 
-BUFFER Digest::digest(BUFFER data, DigestType type)
+MemoryBuffer$ Digest::digest(MemoryBuffer$ data, DigestType type)
 {
-    BUFFER res;
+    MemoryBuffer$ res;
 
     if (data) {
 
@@ -281,7 +283,7 @@ std::string Digest::digestHexStr(uint8_t *data, uint32_t size, Digest::DigestTyp
 {
     std::string res;
 
-    BUFFER buf = digest(data, size, type);
+    MemoryBuffer$ buf = digest(data, size, type);
 
     if (buf) {
 
@@ -298,7 +300,7 @@ std::string Digest::digestHexStr(uint8_t *data, uint32_t size, Digest::DigestTyp
  * @return
  */
 
-std::string Digest::digestHexStr(BUFFER data, Digest::DigestType type)
+std::string Digest::digestHexStr(MemoryBuffer$ data, Digest::DigestType type)
 {
     std::string res;
 

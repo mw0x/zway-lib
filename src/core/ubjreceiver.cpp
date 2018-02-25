@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/core/ubjreceiver.h"
+#include "Zway/core/memorybuffer.h"
 
 namespace Zway {
 
@@ -37,9 +38,9 @@ namespace Zway {
  * @return
  */
 
-UBJ_RECEIVER UbjReceiver::create(const Packet &pkt, UBJ_RECEIVER_CALLBACK callback)
+UbjReceiver$ UbjReceiver::create(const Packet &pkt, UbjReceiverCallback callback)
 {
-    UBJ_RECEIVER receiver(new UbjReceiver(callback));
+    UbjReceiver$ receiver(new UbjReceiver(callback));
 
     if (!receiver->init(pkt)) {
 
@@ -54,7 +55,7 @@ UBJ_RECEIVER UbjReceiver::create(const Packet &pkt, UBJ_RECEIVER_CALLBACK callba
  * @param callback
  */
 
-UbjReceiver::UbjReceiver(UBJ_RECEIVER_CALLBACK callback)
+UbjReceiver::UbjReceiver(UbjReceiverCallback callback)
     : BufferReceiver(),
       m_callback(callback)
 {

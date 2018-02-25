@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/request/createaddcoderequest.h"
+#include "Zway/request/requestevent.h"
 #include "Zway/store/store.h"
 #include "Zway/client.h"
 
@@ -40,12 +41,12 @@ namespace Zway {
  * @return
  */
 
-CREATE_ADD_CODE_REQUEST CreateAddCodeRequest::create(
-        CLIENT client,
+CreateAddCodeRequest$ CreateAddCodeRequest::create(
+        Client$ client,
         const UBJ::Object &args,
-        REQUEST_CALLBACK callback)
+        RequestCallback callback)
 {
-    CREATE_ADD_CODE_REQUEST request(new CreateAddCodeRequest(client, args, callback));
+    CreateAddCodeRequest$ request(new CreateAddCodeRequest(client, args, callback));
 
     if (!request->init()) {
 
@@ -63,9 +64,9 @@ CREATE_ADD_CODE_REQUEST CreateAddCodeRequest::create(
  */
 
 CreateAddCodeRequest::CreateAddCodeRequest(
-        CLIENT client,
+        Client$ client,
         const UBJ::Object &args,
-        REQUEST_CALLBACK callback)
+        RequestCallback callback)
     : Request(CreateAddCode, args, DEFAULT_TIMEOUT, callback),
       m_client(client)
 {

@@ -40,13 +40,13 @@ namespace Zway {
  * @return
  */
 
-RESOURCE_SENDER ResourceSender::create(
-        RESOURCE res,
-        BUFFER key,
-        BUFFER salt,
-        STREAM_SENDER_CALLBACK callback)
+ResourceSender$ ResourceSender::create(
+        Resource$ res,
+        MemoryBuffer$ key,
+        MemoryBuffer$ salt,
+        StreamSenderCallback callback)
 {
-    RESOURCE_SENDER sender(new ResourceSender(res, callback));
+    ResourceSender$ sender(new ResourceSender(res, callback));
 
     if (!sender->init(key, salt)) {
 
@@ -62,7 +62,7 @@ RESOURCE_SENDER ResourceSender::create(
  * @param callback
  */
 
-ResourceSender::ResourceSender(RESOURCE res, STREAM_SENDER_CALLBACK callback)
+ResourceSender::ResourceSender(Resource$ res, StreamSenderCallback callback)
     : StreamSender(0, Packet::Resource, 0, callback),
       m_res(res)
 {
@@ -76,7 +76,7 @@ ResourceSender::ResourceSender(RESOURCE res, STREAM_SENDER_CALLBACK callback)
  * @return
  */
 
-bool ResourceSender::init(BUFFER key, BUFFER salt)
+bool ResourceSender::init(MemoryBuffer$ key, MemoryBuffer$ salt)
 {
     if (!m_res) {
 
@@ -115,7 +115,7 @@ bool ResourceSender::init(BUFFER key, BUFFER salt)
  * @return
  */
 
-bool ResourceSender::preparePacket(PACKET &pkt, uint32_t bytesToSend, uint32_t bytesSent)
+bool ResourceSender::preparePacket(Packet$ &pkt, uint32_t bytesToSend, uint32_t bytesSent)
 {
     if (!StreamSender::preparePacket(pkt, bytesToSend, bytesSent)) {
 
@@ -142,7 +142,7 @@ bool ResourceSender::preparePacket(PACKET &pkt, uint32_t bytesToSend, uint32_t b
  * @return
  */
 
-bool ResourceSender::processPacket(PACKET &pkt)
+bool ResourceSender::processPacket(Packet$ &pkt)
 {
     if (pkt->bodySize()) {
 

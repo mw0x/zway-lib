@@ -25,8 +25,7 @@
 // ============================================================ //
 
 #include "Zway/core/ubj/reader.h"
-
-#include <sstream>
+#include "Zway/core/memorybuffer.h"
 
 namespace Zway { namespace UBJ {
 
@@ -39,7 +38,7 @@ namespace Zway { namespace UBJ {
  * @return
  */
 
-bool Reader::read(Value &val, const BUFFER &buf)
+bool Reader::read(Value &val, const MemoryBuffer$ &buf)
 {
     return read(val, buf->data(), buf->size());
 }
@@ -170,7 +169,7 @@ void Reader::readArray(Value &val, ubjr_array_t &arr)
     else
     if (arr.type == UBJ_INT8) {
 
-        val.m_buffer = Buffer::create((uint8_t*)arr.values, arr.size);
+        val.m_buffer = MemoryBuffer::create((uint8_t*)arr.values, arr.size);
     }
 }
 

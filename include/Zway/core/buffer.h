@@ -31,51 +31,28 @@
 
 namespace Zway {
 
-// ============================================================ //
+USING_SHARED_PTR(Buffer)
 
-/**
- * @brief The Buffer class
- */
+// ============================================================ //
 
 class Buffer
 {
 public:
 
-    static BUFFER create(const uint8_t* data, uint32_t size);
-
-    static BUFFER create(BUFFER buffer);
+    Buffer();
 
     virtual ~Buffer();
 
-    virtual void release();
+    virtual bool read(uint8_t* data, uint32_t size, uint32_t offset, uint32_t *bytesRead) = 0;
 
-    virtual void clear();
+    virtual bool write(const uint8_t *data, uint32_t size, uint32_t offset, uint32_t *bytesWritten) = 0;
 
-    virtual bool read(uint8_t* data, uint32_t size, uint32_t offset, uint32_t *bytesRead);
-
-    virtual bool write(const uint8_t *data, uint32_t size, uint32_t offset, uint32_t *bytesWritten);
-
-    virtual void flush();
-
-    BUFFER copy();
-
-    bool empty();
-
-    virtual uint8_t* data();
-
-    virtual uint32_t size();
+    uint32_t size();
 
 protected:
 
-    Buffer();
+    uint32_t m_size = 0;
 
-    bool init(const uint8_t* data, uint32_t size);
-
-protected:
-
-    uint8_t* m_data;
-
-    uint32_t m_size;
 };
 
 // ============================================================ //

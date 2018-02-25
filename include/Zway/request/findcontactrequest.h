@@ -31,6 +31,9 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Client)
+USING_SHARED_PTR(FindContactRequest)
+
 // ============================================================ //
 
 /**
@@ -41,25 +44,25 @@ class FindContactRequest : public Request
 {
 public:
 
-    static FIND_CONTACT_REQUEST create(
-            CLIENT client,
+    static FindContactRequest$ create(
+            Client$ client,
             const UBJ::Object &args,
-            REQUEST_CALLBACK callback = nullptr);
+            RequestCallback callback = nullptr);
 
     bool processResponse(const UBJ::Object &response);
 
 protected:
 
     FindContactRequest(
-            CLIENT client,
+            Client$ client,
             const UBJ::Object &args,
-            REQUEST_CALLBACK callback);
+            RequestCallback callback);
 
     bool init();
 
 protected:
 
-    CLIENT m_client;
+    Client$ m_client;
 };
 
 // ============================================================ //

@@ -24,10 +24,13 @@
 //
 // ============================================================ //
 
-#include "Zway/core/crypto/crypto.h"
+#include "Zway/core/crypto/rsa.h"
+#include "Zway/core/crypto/random.h"
+#include "Zway/core/crypto/digest.h"
+#include "Zway/core/memorybuffer.h"
 
-#include <nettle/yarrow.h>
 #include <nettle/rsa.h>
+#include <nettle/yarrow.h>
 
 namespace Zway { namespace Crypto {
 
@@ -205,7 +208,7 @@ bool RSA::createKeyPair(
  * @return
  */
 
-BUFFER RSA::encrypt(const UBJ::Object &publicKeyObj, BUFFER buf)
+MemoryBuffer$ RSA::encrypt(const UBJ::Object &publicKeyObj, MemoryBuffer$ buf)
 {
     struct rsa_public_key publicKey;
 
@@ -223,16 +226,16 @@ BUFFER RSA::encrypt(const UBJ::Object &publicKeyObj, BUFFER buf)
             buf->data(),
             z)) {
 
-        return BUFFER();
+        return nullptr;
     }
 
     uint32_t len = mpz_sizeinbase(z, 16) + 1;
 
-    BUFFER res = Buffer::create(nullptr, len);
+    MemoryBuffer$ res = MemoryBuffer::create(nullptr, len);
 
     if (!res) {
 
-        return BUFFER();
+        return nullptr;
     }
 
     mpz_get_str((char*)res->data(), 16, z);
@@ -251,7 +254,7 @@ BUFFER RSA::encrypt(const UBJ::Object &publicKeyObj, BUFFER buf)
  * @return
  */
 
-BUFFER RSA::decrypt(const UBJ::Object &privateKeyObj, BUFFER buf)
+MemoryBuffer$ RSA::decrypt(const UBJ::Object &privateKeyObj, MemoryBuffer$ buf)
 {
     struct rsa_private_key privateKey;
 
@@ -263,7 +266,7 @@ BUFFER RSA::decrypt(const UBJ::Object &privateKeyObj, BUFFER buf)
 
     mpz_set_str(z, (char*)buf->data(), 16);
 
-    BUFFER tmp = Buffer::create(nullptr, 2048);
+    MemoryBuffer$ tmp = MemoryBuffer::create(nullptr, 2048);
 
     size_t len = tmp->size();
 
@@ -273,14 +276,14 @@ BUFFER RSA::decrypt(const UBJ::Object &privateKeyObj, BUFFER buf)
             tmp->data(),
             z)) {
 
-        return BUFFER();
+        return nullptr;
     }
 
-    BUFFER res = Buffer::create(tmp->data(), len);
+    MemoryBuffer$ res = MemoryBuffer::create(tmp->data(), len);
 
     if (!res) {
 
-        return BUFFER();
+        return nullptr;
     }
 
     mpz_clear(z);
@@ -297,13 +300,13 @@ BUFFER RSA::decrypt(const UBJ::Object &privateKeyObj, BUFFER buf)
  * @return
  */
 
-BUFFER RSA::sign(const UBJ::Object &privateKeyObj, BUFFER buf)
+MemoryBuffer$ RSA::sign(const UBJ::Object &privateKeyObj, MemoryBuffer$ buf)
 {
     struct rsa_private_key privateKey;
 
     ubjToPrivateKey(privateKeyObj, privateKey);
 
-    BUFFER digest = Digest::digest(buf, Digest::DIGEST_SHA256);
+    MemoryBuffer$ digest = Digest::digest(buf, Digest::DIGEST_SHA256);
 
     mpz_t z;
 
@@ -315,12 +318,12 @@ BUFFER RSA::sign(const UBJ::Object &privateKeyObj, BUFFER buf)
 
         rsa_private_key_clear(&privateKey);
 
-        return BUFFER();
+        return nullptr;
     }
 
     uint32_t len = mpz_sizeinbase(z, 16) + 1;
 
-    BUFFER sign = Buffer::create(nullptr, len);
+    MemoryBuffer$ sign = MemoryBuffer::create(nullptr, len);
 
     if (!sign) {
 
@@ -328,7 +331,7 @@ BUFFER RSA::sign(const UBJ::Object &privateKeyObj, BUFFER buf)
 
         rsa_private_key_clear(&privateKey);
 
-        return BUFFER();
+        return nullptr;
     }
 
     mpz_get_str((char*)sign->data(), 16, z);
@@ -348,13 +351,13 @@ BUFFER RSA::sign(const UBJ::Object &privateKeyObj, BUFFER buf)
  * @return
  */
 
-bool RSA::verify(const UBJ::Object &publicKeyObj, BUFFER buf, BUFFER sign)
+bool RSA::verify(const UBJ::Object &publicKeyObj, MemoryBuffer$ buf, MemoryBuffer$ sign)
 {
     struct rsa_public_key publicKey;
 
     ubjToPublicKey(publicKeyObj, publicKey);
 
-    BUFFER digest = Digest::digest(buf, Digest::DIGEST_SHA256);
+    MemoryBuffer$ digest = Digest::digest(buf, Digest::DIGEST_SHA256);
 
     mpz_t z;
 

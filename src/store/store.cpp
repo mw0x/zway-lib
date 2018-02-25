@@ -24,9 +24,9 @@
 //
 // ============================================================ //
 
-#include "Zway/store/store.h"
+#include "Zway/core/crypto/random.h"
 #include "Zway/message/message.h"
-#include "Zway/client.h"
+#include "Zway/store/store.h"
 
 namespace Zway {
 
@@ -52,9 +52,9 @@ Store::Store()
  * @return
  */
 
-STORE Store::create(const std::string &filename, const std::string &password, const UBJ::Object &data, bool handler)
+Store$ Store::create(const std::string &filename, const std::string &password, const UBJ::Object &data, bool handler)
 {
-    STORE store(new Store());
+    Store$ store(new Store());
 
     if (store->init(filename, password, data, handler)) {
 
@@ -72,9 +72,9 @@ STORE Store::create(const std::string &filename, const std::string &password, co
  * @return
  */
 
-STORE Store::unlock(const std::string &filename, const std::string &password, bool handler)
+Store$ Store::unlock(const std::string &filename, const std::string &password, bool handler)
 {
-    STORE store(new Store());
+    Store$ store(new Store());
 
     if (store->open(filename, password, handler)) {
 
@@ -109,7 +109,7 @@ std::string Store::accountName()
  * @return
  */
 
-BUFFER Store::accountPassword()
+MemoryBuffer$ Store::accountPassword()
 {
     return m_accountPassword;
 }
@@ -236,7 +236,7 @@ uint64_t Store::createVfsNode(VfsNodeType type, const std::string &name, uint64_
  * @return
  */
 
-BUFFER Store::getVfsNodeData(uint64_t id)
+MemoryBuffer$ Store::getVfsNodeData(uint64_t id)
 {
     UBJ::Object node;
 
@@ -245,7 +245,7 @@ BUFFER Store::getVfsNodeData(uint64_t id)
         return nullptr;
     }
 
-    BUFFER buf = getBlobData("blob3", node["data"].toInt());
+    MemoryBuffer$ buf = getBlobData("blob3", node["data"].toInt());
 
     if (!buf) {
 
@@ -506,9 +506,9 @@ bool Store::deleteHistory(uint64_t history)
  * @return
  */
 
-MESSAGE_LIST Store::getMessages(uint32_t history)
+MessageList Store::getMessages(uint32_t history)
 {
-    MESSAGE_LIST messages;
+    MessageList messages;
 
     query("messages", UBJ_OBJ("history" << history), [&messages] (bool error, CURSOR cursor) {
 

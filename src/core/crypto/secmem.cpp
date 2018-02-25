@@ -24,7 +24,6 @@
 //
 // ============================================================ //
 
-#include "Zway/core/crypto/crypto.h"
 #include "Zway/core/crypto/secmem.h"
 
 #if defined _WIN32
@@ -35,7 +34,7 @@
 #include <unistd.h>
 #endif
 
-#include <memory.h>
+#include <cstring>
 #include <list>
 
 namespace Zway {

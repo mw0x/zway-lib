@@ -24,9 +24,11 @@
 //
 // ============================================================ //
 
-#include "Zway/core/crypto/crypto.h"
+#include "Zway/core/crypto/aes.h"
+#include "Zway/core/memorybuffer.h"
 
-#include <string.h>
+#include <cstring>
+
 #include <nettle/aes.h>
 #include <nettle/ctr.h>
 
@@ -88,7 +90,7 @@ AES::~AES()
  * @param key
  */
 
-void AES::setKey(BUFFER key)
+void AES::setKey(MemoryBuffer$ key)
 {
     if (key) {
 
@@ -101,7 +103,7 @@ void AES::setKey(BUFFER key)
  * @param ctr
  */
 
-void AES::setCtr(BUFFER ctr)
+void AES::setCtr(MemoryBuffer$ ctr)
 {
     if (ctr) {
 
@@ -135,11 +137,11 @@ bool AES::encrypt(void *src, void *dst, uint32_t size, Callback callback)
 
     uint32_t bytesEncrypted = 0;
 
-    BUFFER tmp;
+    MemoryBuffer$ tmp;
 
     if (!dst) {
 
-        tmp = Buffer::create(nullptr, chunkSize);
+        tmp = MemoryBuffer::create(nullptr, chunkSize);
 
         if (!tmp) {
 
@@ -192,7 +194,7 @@ bool AES::encrypt(void *src, void *dst, uint32_t size, Callback callback)
  * @return
  */
 
-bool AES::encrypt(BUFFER src, BUFFER dst, uint32_t size, Callback callback)
+bool AES::encrypt(MemoryBuffer$ src, MemoryBuffer$ dst, uint32_t size, Callback callback)
 {
     return encrypt(src->data(), dst ? dst->data() : nullptr, size, callback);
 }
@@ -223,11 +225,11 @@ bool AES::decrypt(void *src, void *dst, uint32_t size, Callback callback)
 
     uint32_t bytesDecrypted = 0;
 
-    BUFFER tmp;
+    MemoryBuffer$ tmp;
 
     if (!dst) {
 
-        tmp = Buffer::create(nullptr, chunkSize);
+        tmp = MemoryBuffer::create(nullptr, chunkSize);
 
         if (!tmp) {
 
@@ -280,7 +282,7 @@ bool AES::decrypt(void *src, void *dst, uint32_t size, Callback callback)
  * @return
  */
 
-bool AES::decrypt(BUFFER src, BUFFER dst, uint32_t size, Callback callback)
+bool AES::decrypt(MemoryBuffer$ src, MemoryBuffer$ dst, uint32_t size, Callback callback)
 {
     return decrypt(src->data(), dst ? dst->data() : nullptr, size, callback);
 }

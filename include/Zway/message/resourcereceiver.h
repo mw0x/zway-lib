@@ -28,9 +28,12 @@
 #define RESOURCE_RECEIVER_H_
 
 #include "Zway/core/bufferreceiver.h"
-#include "Zway/message/resource.h"
+#include "Zway/core/crypto/aes.h"
 
 namespace Zway {
+
+USING_SHARED_PTR(Resource)
+USING_SHARED_PTR(ResourceReceiver)
 
 // ============================================================ //
 
@@ -38,21 +41,21 @@ namespace Zway {
  * @brief The ResourceReceiver class
  */
 
-class ResourceReceiver : public Zway::BufferReceiver
+class ResourceReceiver : public BufferReceiver
 {
 public:
 
-    static RESOURCE_RECEIVER create(
+    static ResourceReceiver$ create(
             const Packet &pkt,
-            BUFFER key,
-            BUFFER salt,
-            BUFFER_RECEIVER_CALLBACK callback);
+            MemoryBuffer$ key,
+            MemoryBuffer$ salt,
+            BufferReceiverCallback callback);
 
 protected:
 
-    ResourceReceiver(BUFFER_RECEIVER_CALLBACK callback);
+    ResourceReceiver(BufferReceiverCallback callback);
 
-    bool init(const Packet &pkt, BUFFER key, BUFFER salt);
+    bool init(const Packet &pkt, MemoryBuffer$ key, MemoryBuffer$ salt);
 
     bool processPacket(Packet &pkt);
 

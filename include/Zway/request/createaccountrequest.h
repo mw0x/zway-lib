@@ -31,6 +31,9 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Client)
+USING_SHARED_PTR(CreateAccountRequest)
+
 // ============================================================ //
 
 /**
@@ -41,10 +44,10 @@ class CreateAccountRequest : public Request
 {
 public:
 
-    static CREATE_ACCOUNT_REQUEST create(
-            CLIENT client,
+    static CreateAccountRequest$ create(
+            Client$ client,
             const UBJ::Object &args,
-            REQUEST_CALLBACK callback = nullptr);
+            RequestCallback callback = nullptr);
 
     bool processResponse(const UBJ::Object &response);
 
@@ -53,15 +56,15 @@ public:
 protected:
 
     CreateAccountRequest(
-            CLIENT client,
+            Client$ client,
             const UBJ::Object &args,
-            REQUEST_CALLBACK callback = nullptr);
+            RequestCallback callback = nullptr);
 
     bool init();
 
 private:
 
-    CLIENT m_client;
+    Client$ m_client;
 
     std::string m_storeFilename;
 

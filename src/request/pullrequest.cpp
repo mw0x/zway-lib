@@ -40,7 +40,7 @@ namespace Zway {
  * @return
  */
 
-PULL_REQUEST PullRequest::create(Client *client, uint32_t messageId, uint32_t resourceId, REQUEST_CALLBACK callback)
+PULL_REQUEST PullRequest::create(Client *client, uint32_t messageId, uint32_t resourceId, RequestCallback callback)
 {
     return PULL_REQUEST(new PullRequest(client, messageId, resourceId, callback));
 }
@@ -53,7 +53,7 @@ PULL_REQUEST PullRequest::create(Client *client, uint32_t messageId, uint32_t re
  * @param callback
  */
 
-PullRequest::PullRequest(Client *client, uint32_t messageId, uint32_t resourceId, REQUEST_CALLBACK callback)
+PullRequest::PullRequest(Client *client, uint32_t messageId, uint32_t resourceId, RequestCallback callback)
     : Request(Pull, {}, DEFAULT_TIMEOUT, callback)
 {
     m_head["messageId"] = messageId;

@@ -32,6 +32,8 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Client)
+
 // ============================================================ //
 
 /**
@@ -44,13 +46,13 @@ public:
 
     typedef std::shared_ptr<PullRequest> Pointer;
 
-    static Pointer create(Client *client, uint32_t messageId, uint32_t resourceId=0, REQUEST_CALLBACK callback = nullptr);
+    static Pointer create(Client *client, uint32_t messageId, uint32_t resourceId=0, RequestCallback callback = nullptr);
 
     bool processResponse(const UBJ::Object &response);
 
 protected:
 
-    PullRequest(Client *client, uint32_t messageId, uint32_t resourceId, REQUEST_CALLBACK callback);
+    PullRequest(Client *client, uint32_t messageId, uint32_t resourceId, RequestCallback callback);
 };
 
 typedef PullRequest::Pointer PULL_REQUEST;

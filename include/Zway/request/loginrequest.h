@@ -31,6 +31,9 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Client)
+USING_SHARED_PTR(LoginRequest)
+
 // ============================================================ //
 
 /**
@@ -41,19 +44,19 @@ class LoginRequest : public Request
 {
 public:
 
-    static LOGIN_REQUEST create(CLIENT client, REQUEST_CALLBACK callback = nullptr);
+    static LoginRequest$ create(Client$ client, RequestCallback callback = nullptr);
 
     bool processResponse(const UBJ::Object &response);
 
 protected:
 
-    LoginRequest(CLIENT client, REQUEST_CALLBACK callback = nullptr);
+    LoginRequest(Client$ client, RequestCallback callback = nullptr);
 
     bool init();
 
 protected:
 
-    CLIENT m_client;
+    Client$ m_client;
 
 };
 

@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/core/ubjsender.h"
+#include "Zway/core/memorybuffer.h"
 
 namespace Zway {
 
@@ -39,13 +40,13 @@ namespace Zway {
  * @return
  */
 
-UBJ_SENDER UbjSender::create(
+UbjSender$ UbjSender::create(
         uint32_t id,
         Packet::StreamType type,
         const UBJ::Value &value,
-        STREAM_SENDER_CALLBACK callback)
+        StreamSenderCallback callback)
 {
-    UBJ_SENDER sender(new UbjSender(id, type, value, callback));
+    UbjSender$ sender(new UbjSender(id, type, value, callback));
 
     if (!sender->init(value)) {
 
@@ -67,7 +68,7 @@ UbjSender::UbjSender(
         uint32_t id,
         Packet::StreamType type,
         const UBJ::Value &value,
-        STREAM_SENDER_CALLBACK callback)
+        StreamSenderCallback callback)
     : BufferSender(id, type, nullptr, callback)
 {
 

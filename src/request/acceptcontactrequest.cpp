@@ -26,6 +26,7 @@
 
 #include "Zway/request/acceptcontactrequest.h"
 #include "Zway/request/configrequest.h"
+#include "Zway/request/requestevent.h"
 #include "Zway/store/store.h"
 #include "Zway/client.h"
 
@@ -41,12 +42,12 @@ namespace Zway {
  * @return
  */
 
-ACCEPT_CONTACT_REQUEST AcceptContactRequest::create(
-        CLIENT client,
+AcceptContactRequest$ AcceptContactRequest::create(
+        Client$ client,
         const UBJ::Object &args,
-        REQUEST_CALLBACK callback)
+        RequestCallback callback)
 {
-    ACCEPT_CONTACT_REQUEST request(new AcceptContactRequest(client, args, callback));
+    AcceptContactRequest$ request(new AcceptContactRequest(client, args, callback));
 
     if (!request->init()) {
 
@@ -64,9 +65,9 @@ ACCEPT_CONTACT_REQUEST AcceptContactRequest::create(
  */
 
 AcceptContactRequest::AcceptContactRequest(
-        CLIENT client,
+        Client$ client,
         const UBJ::Object &args,
-        REQUEST_CALLBACK callback)
+        RequestCallback callback)
     : Request(AcceptContact, args, DEFAULT_TIMEOUT, callback),
       m_client(client)
 {

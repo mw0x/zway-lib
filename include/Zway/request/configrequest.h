@@ -31,23 +31,26 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Client)
+USING_SHARED_PTR(ConfigRequest)
+
 // ============================================================ //
 
 class ConfigRequest : public Request
 {
 public:
 
-    static CONFIG_REQUEST create(CLIENT client, const UBJ::Object &config, REQUEST_CALLBACK callback = nullptr);
+    static ConfigRequest$ create(Client$ client, const UBJ::Object &config, RequestCallback callback = nullptr);
 
     bool processResponse(const UBJ::Object &response);
 
 protected:
 
-    ConfigRequest(CLIENT client, const UBJ::Object &config, REQUEST_CALLBACK callback = nullptr);
+    ConfigRequest(Client$ client, const UBJ::Object &config, RequestCallback callback = nullptr);
 
 protected:
 
-    CLIENT m_client;
+    Client$ m_client;
 };
 
 // ============================================================ //

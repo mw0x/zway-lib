@@ -33,17 +33,17 @@ GMP_ARC="gmp-$GMP_VER.tar.xz"
 GMP_URL="https://gmplib.org/download/gmp/$GMP_ARC"
 
 # nettle
-NETTLE_VER="3.3"
+NETTLE_VER="3.4"
 NETTLE_ARC="nettle-$NETTLE_VER.tar.gz"
 NETTLE_URL="https://ftp.gnu.org/gnu/nettle/$NETTLE_ARC"
 
 # gnutls
-GNUTLS_VER="3.5.8"
+GNUTLS_VER="3.5.18"
 GNUTLS_ARC="gnutls-$GNUTLS_VER.tar.xz"
 GNUTLS_URL="ftp://ftp.gnutls.org/gcrypt/gnutls/v3.4/$GNUTLS_ARC"
 
 # sqlite
-SQLITE_VER="3160200"
+SQLITE_VER="3220000"
 SQLITE_ARC="sqlite-autoconf-$SQLITE_VER.tar.gz"
 SQLITE_URL="https://www.sqlite.org/2016/$SQLITE_ARC"
 

@@ -31,6 +31,10 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Event)
+
+using EventCallback = std::function<void (Event$)>;
+
 // ============================================================ //
 
 /**
@@ -77,11 +81,11 @@ public:
         ResourceReceipted
     };
 
-    static EVENT create(
+    static Event$ create(
             Type type,
             const UBJ::Object &data = {},
             const UBJ::Object &error = {},
-            EVENT_CALLBACK callback = nullptr);
+            EventCallback callback = nullptr);
 
     virtual ~Event();
 
@@ -99,7 +103,7 @@ protected:
         Type type,
         const UBJ::Object &data,
         const UBJ::Object &error,
-        EVENT_CALLBACK callback = nullptr);
+        EventCallback callback = nullptr);
 
 protected:
 
@@ -109,7 +113,7 @@ protected:
 
     UBJ::Object m_error;
 
-    EVENT_CALLBACK m_callback;
+    EventCallback m_callback;
 
 };
 

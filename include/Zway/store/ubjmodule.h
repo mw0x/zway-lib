@@ -29,14 +29,14 @@
 
 #include "Zway/core/ubj/value.h"
 
-#include <sqlite3.h>
-
 #include <cstring>
 #include <vector>
 
+#include <sqlite3.h>
+
 namespace Zway { namespace UBJ {
 
-typedef std::deque<UBJ::Object> UBJ_OBJ_LIST;
+using UbjObjectList = std::deque<UBJ::Object>;
 
 // ============================================================ //
 
@@ -89,7 +89,7 @@ private:
 
         std::vector<uint32_t> rowIds;
 
-        UBJ_OBJ_LIST rows;
+        UbjObjectList rows;
 
         int pos;
     };

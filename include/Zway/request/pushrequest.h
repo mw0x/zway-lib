@@ -32,6 +32,9 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Client)
+USING_SHARED_PTR(PushRequest)
+
 // ============================================================ //
 
 /**
@@ -43,18 +46,18 @@ class PushRequest : public Request
 public:
 
 
-    static BUFFER resourceSalt(BUFFER salt, uint32_t resourceId);
+    static MemoryBuffer$ resourceSalt(MemoryBuffer$ salt, uint32_t resourceId);
 
 
-    static PUSH_REQUEST create(CLIENT client, MESSAGE msg, uint32_t id=0, REQUEST_CALLBACK callback=nullptr);
+    static PushRequest$ create(Client$ client, Message$ msg, uint32_t id=0, RequestCallback callback=nullptr);
 
     bool processResponse(const UBJ::Object &response);
 
-    MESSAGE message();
+    Message$ message();
 
 protected:
 
-    PushRequest(CLIENT client, Zway::MESSAGE msg, uint32_t id, REQUEST_CALLBACK callback);
+    PushRequest(Client$ client, Message$ msg, uint32_t id, RequestCallback callback);
 
     bool init();
 
@@ -62,18 +65,18 @@ protected:
     bool updateMessage(Message::Status status, UBJ::Object *message = nullptr);
 
 
-    static void pushResources(PUSH_REQUEST request, const UBJ::Array &resourceIds, const std::function<void (PUSH_REQUEST)> &callback, uint32_t index=0);
+    static void pushResources(PushRequest$ request, const UBJ::Array &resourceIds, const std::function<void (PushRequest$)> &callback, uint32_t index=0);
 
 
 protected:
 
-    CLIENT m_client;
+    Client$ m_client;
 
-    MESSAGE m_msg;
+    Message$ m_msg;
 
-    BUFFER m_key;
+    MemoryBuffer$ m_key;
 
-    BUFFER m_salt;
+    MemoryBuffer$ m_salt;
 };
 
 // ============================================================ //

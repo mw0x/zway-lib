@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/request/dispatchrequest.h"
+#include "Zway/request/requestevent.h"
 #include "Zway/client.h"
 
 namespace Zway {
@@ -39,12 +40,12 @@ namespace Zway {
  * @return
  */
 
-DISPATCH_REQUEST DispatchRequest::create(
-        CLIENT client,
+DispatchRequest$ DispatchRequest::create(
+        Client$ client,
         const UBJ::Object &args,
-        REQUEST_CALLBACK callback)
+        RequestCallback callback)
 {
-    DISPATCH_REQUEST request(new DispatchRequest(client, args, callback));
+    DispatchRequest$ request(new DispatchRequest(client, args, callback));
 
     if (!request->init()) {
 
@@ -62,9 +63,9 @@ DISPATCH_REQUEST DispatchRequest::create(
  */
 
 DispatchRequest::DispatchRequest(
-        CLIENT client,
+        Client$ client,
         const UBJ::Object &args,
-        REQUEST_CALLBACK callback)
+        RequestCallback callback)
     : Request(Dispatch, args, DEFAULT_TIMEOUT, callback),
       m_client(client)
 {

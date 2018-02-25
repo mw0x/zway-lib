@@ -28,11 +28,23 @@
 #define ZWAY_CORE_UBJ_VALUE_H_
 
 #include "Zway/core/ubj/ubj.h"
-#include "Zway/core/buffer.h"
+#include "Zway/types.h"
 
-#include <string>
+#include <deque>
+#include <list>
+#include <map>
 
-namespace Zway { namespace UBJ {
+namespace Zway {
+
+USING_SHARED_PTR(MemoryBuffer)
+
+namespace UBJ {
+
+class Value;
+
+class Object;
+
+class Array;
 
 // ============================================================ //
 
@@ -44,22 +56,22 @@ class Value
 {
 public:
 
-    static bool read(Value &val, const BUFFER &data);
+    static bool read(Value &val, const MemoryBuffer$ &data);
 
     static bool read(Value &val, const uint8_t *data, uint32_t size);
 
 
-    static bool read(Object &obj, const BUFFER &data);
+    static bool read(Object &obj, const MemoryBuffer$ &data);
 
     static bool read(Object &obj, const uint8_t *data, uint32_t size);
 
 
-    static bool read(Array &arr, const BUFFER &data);
+    static bool read(Array &arr, const MemoryBuffer$ &data);
 
     static bool read(Array &arr, const uint8_t *data, uint32_t size);
 
 
-    static BUFFER write(const Value &val);
+    static MemoryBuffer$ write(const Value &val);
 
 
     static std::string dump(const Value& val, int indent = 2);
@@ -95,7 +107,7 @@ public:
     Value(bool val);
 
 
-    Value(BUFFER buf);
+    Value(MemoryBuffer$ buf);
 
 
     ~Value();
@@ -148,7 +160,7 @@ public:
     Value copy() const;
 
 
-    BUFFER buffer() const;
+    MemoryBuffer$ buffer() const;
 
     uint32_t bufferSize() const;
 
@@ -178,7 +190,7 @@ protected:
 
     UBJ_TYPE m_type;
 
-    BUFFER m_buffer;
+    MemoryBuffer$ m_buffer;
 
     std::shared_ptr<Object> m_obj;
 

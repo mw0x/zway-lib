@@ -31,6 +31,9 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Client)
+USING_SHARED_PTR(AcceptContactRequest)
+
 // ============================================================ //
 
 /**
@@ -41,25 +44,25 @@ class AcceptContactRequest : public Request
 {
 public:
 
-    static ACCEPT_CONTACT_REQUEST create(
-            CLIENT client,
+    static AcceptContactRequest$ create(
+            Client$ client,
             const UBJ::Object &args,
-            REQUEST_CALLBACK callback = nullptr);
+            RequestCallback callback = nullptr);
 
     bool processResponse(const UBJ::Object &response);
 
 protected:
 
     AcceptContactRequest(
-            CLIENT client,
+            Client$ client,
             const UBJ::Object &args,
-            REQUEST_CALLBACK callback);
+            RequestCallback callback);
 
     bool init();
 
 protected:
 
-    CLIENT m_client;
+    Client$ m_client;
 };
 
 // ============================================================ //

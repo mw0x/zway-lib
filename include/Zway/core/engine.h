@@ -27,10 +27,19 @@
 #ifndef ZWAY_CORE_ENGINE_H_
 #define ZWAY_CORE_ENGINE_H_
 
+#include "Zway/core/packet.h"
 #include "Zway/core/request.h"
 #include "Zway/core/thread/safe.h"
 
 namespace Zway {
+
+USING_SHARED_PTR(StreamReceiver)
+
+using StreamReceiverMap = std::map<uint32_t, StreamReceiver$>;
+
+using StreamSenderList = std::list<StreamSender$>;
+
+using RequestMap = std::map<uint32_t, Request$>;
 
 // ============================================================ //
 
@@ -48,11 +57,11 @@ public:
 
     void finish();
 
-    virtual bool addStreamSender(STREAM_SENDER sender);
+    virtual bool addStreamSender(StreamSender$ sender);
 
     bool addUbjSender(uint32_t id, Packet::StreamType type, const UBJ::Value &value);
 
-    bool postRequest(REQUEST request);
+    bool postRequest(Request$ request);
 
     bool postRequestSuccess(uint32_t requestId, const UBJ::Object &head = UBJ::Object());
 
@@ -64,25 +73,25 @@ public:
 
 protected:
 
-    virtual STREAM_RECEIVER createStreamReceiver(const Packet &pkt);
+    virtual StreamReceiver$ createStreamReceiver(const Packet &pkt);
 
     bool processIncomingPacket(Packet &pkt);
 
     virtual bool processIncomingRequest(const UBJ::Object &request);
 
-    virtual bool processRequestTimeout(REQUEST request);
+    virtual bool processRequestTimeout(Request$ request);
 
-    int32_t processStreamSenders(bool copyBody, std::function<bool (PACKET)> packetCallback);
+    int32_t processStreamSenders(bool copyBody, std::function<bool (Packet$)> packetCallback);
 
-    void removeStreamSender(STREAM_SENDER sender);
+    void removeStreamSender(StreamSender$ sender);
 
 protected:
 
-    ThreadSafe<STREAM_SENDER_LIST> m_streamSenders;
+    ThreadSafe<StreamReceiverMap> m_streamReceivers;
 
-    ThreadSafe<STREAM_RECEIVER_MAP> m_streamReceivers;
+    ThreadSafe<StreamSenderList> m_streamSenders;
 
-    ThreadSafe<REQUEST_MAP> m_requests;
+    ThreadSafe<RequestMap> m_requests;
 };
 
 // ============================================================ //

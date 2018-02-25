@@ -27,10 +27,15 @@
 #ifndef ZWAY_CORE_REQUEST_H_
 #define ZWAY_CORE_REQUEST_H_
 
-#include "Zway/request/requestevent.h"
-#include "Zway/core/ubjsender.h"
+#include "Zway/core/ubj/value.h"
 
 namespace Zway {
+
+USING_SHARED_PTR(Request)
+USING_SHARED_PTR(RequestEvent)
+USING_SHARED_PTR(StreamSender)
+
+using RequestCallback = std::function<void (RequestEvent$, Request$)>;
 
 extern const uint32_t DEFAULT_TIMEOUT;
 
@@ -89,11 +94,11 @@ public:
         Error
     };
 
-    static REQUEST create(Type type, UBJ::Object &args, uint32_t timeout = DEFAULT_TIMEOUT, REQUEST_CALLBACK callback = nullptr);
+    static Request$ create(Type type, UBJ::Object &args, uint32_t timeout = DEFAULT_TIMEOUT, RequestCallback callback = nullptr);
 
     virtual ~Request();
 
-    STREAM_SENDER start();
+    StreamSender$ start();
 
     virtual bool processResponse(const UBJ::Object &response);
 
@@ -109,11 +114,11 @@ public:
 
     Status status();
 
-    void invokeCallback(REQUEST_EVENT event);
+    void invokeCallback(RequestEvent$ event);
 
 protected:
 
-    Request(Type type, const UBJ::Object &args, uint32_t timeout = DEFAULT_TIMEOUT, REQUEST_CALLBACK callback = nullptr);
+    Request(Type type, const UBJ::Object &args, uint32_t timeout = DEFAULT_TIMEOUT, RequestCallback callback = nullptr);
 
 protected:
 
@@ -131,16 +136,8 @@ protected:
 
     UBJ::Object m_head;
 
-    REQUEST_CALLBACK m_callback;
+    RequestCallback m_callback;
 };
-
-/*
-typedef Request::Pointer REQUEST;
-
-typedef Request::Callback REQUEST_CALLBACK;
-
-typedef std::map<uint32_t, REQUEST> REQUEST_MAP;
-*/
 
 // ============================================================ //
 

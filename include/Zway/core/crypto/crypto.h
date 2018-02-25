@@ -27,16 +27,13 @@
 #ifndef ZWAY_CRYPTO_H_
 #define ZWAY_CRYPTO_H_
 
-#include "Zway/core/crypto/random.h"
-#include "Zway/core/crypto/digest.h"
-#include "Zway/core/crypto/aes.h"
-#include "Zway/core/crypto/rsa.h"
+#include "Zway/types.h"
 
-#include "nettle/pbkdf2.h"
+namespace Zway {
 
-#include <string>
+USING_SHARED_PTR(MemoryBuffer)
 
-namespace Zway { namespace Crypto {
+namespace Crypto {
 
 // ============================================================ //
 
@@ -48,7 +45,7 @@ uint32_t mkId();
 
 std::string hexStr(uint8_t* data, uint32_t size);
 
-std::string hexStr(BUFFER data);
+std::string hexStr(MemoryBuffer$ data);
 
 // ============================================================ //
 

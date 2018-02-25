@@ -24,10 +24,13 @@
 //
 // ============================================================ //
 
+#include "Zway/core/crypto/random.h"
+#include "Zway/core/memorybuffer.h"
 #include "Zway/store/ubjstore.h"
 
-#include <cstring>
 #include <sstream>
+
+#include "nettle/pbkdf2.h"
 
 namespace Zway { namespace UBJ {
 
@@ -166,7 +169,7 @@ bool Store::init(const std::string &filename, const std::string &password, bool 
 
     // create salt
 
-    BUFFER salt = Buffer::create(nullptr, 16);
+    MemoryBuffer$ salt = MemoryBuffer::create(nullptr, 16);
 
     if (!Crypto::Random::random(salt->data(), salt->size(), Crypto::Random::Strong)) {
 
@@ -177,7 +180,7 @@ bool Store::init(const std::string &filename, const std::string &password, bool 
 
     // create key
 
-    BUFFER pwd = Buffer::create(nullptr, 32);
+    MemoryBuffer$ pwd = MemoryBuffer::create(nullptr, 32);
 
     pbkdf2_hmac_sha256(password.size(), (uint8_t*)&password[0], 10000, salt->size(), salt->data(), pwd->size(), pwd->data());
 
@@ -185,7 +188,7 @@ bool Store::init(const std::string &filename, const std::string &password, bool 
 
     // create random store key and encrypt with password key
 
-    m_key = Buffer::create(nullptr, 32);
+    m_key = MemoryBuffer::create(nullptr, 32);
 
     if (!Crypto::Random::random(m_key->data(), m_key->size(), Crypto::Random::VeryStrong)) {
 
@@ -194,11 +197,11 @@ bool Store::init(const std::string &filename, const std::string &password, bool 
         return false;
     }
 
-    BUFFER key = Buffer::create(nullptr, 32);
+    MemoryBuffer$ key = MemoryBuffer::create(nullptr, 32);
 
     Crypto::AES aes;
 
-    aes.setCtr(Buffer::create(nullptr, 16));
+    aes.setCtr(MemoryBuffer::create(nullptr, 16));
 
     aes.setKey(pwd);
 
@@ -306,9 +309,9 @@ bool Store::open(const std::string &filename, const std::string &password, bool 
 
     // key generation from password
 
-    BUFFER salt = rootData["salt"].buffer();
+    MemoryBuffer$ salt = rootData["salt"].buffer();
 
-    BUFFER pwd = Buffer::create(nullptr, 32);
+    MemoryBuffer$ pwd = MemoryBuffer::create(nullptr, 32);
 
     pbkdf2_hmac_sha256(password.size(), (uint8_t*)&password[0], 10000, salt->size(), salt->data(), pwd->size(), pwd->data());
 
@@ -316,11 +319,11 @@ bool Store::open(const std::string &filename, const std::string &password, bool 
 
     // decrypt store key
 
-    BUFFER key = Buffer::create(rootData["key"].buffer());
+    MemoryBuffer$ key = MemoryBuffer::create(rootData["key"].buffer());
 
     Crypto::AES aes;
 
-    aes.setCtr(Buffer::create(nullptr, 16));
+    aes.setCtr(MemoryBuffer::create(nullptr, 16));
 
     aes.setKey(pwd);
 
@@ -328,7 +331,7 @@ bool Store::open(const std::string &filename, const std::string &password, bool 
 
     // decrypt store password
 
-    BUFFER tmp = Buffer::create(rootData["pwd"].buffer());
+    MemoryBuffer$ tmp = MemoryBuffer::create(rootData["pwd"].buffer());
 
     aes.decrypt(tmp, tmp, 32);
 
@@ -1047,11 +1050,11 @@ uint64_t Store::createBlob(const std::string &table, uint32_t size, bool encrypt
     rec["size"] = size;
     rec["data"] = UBJ_OBJ("$zeroBlob" << size);
 
-    BUFFER salt;
+    MemoryBuffer$ salt;
 
     if (encrypt) {
 
-        salt = Buffer::create(nullptr, 16);
+        salt = MemoryBuffer::create(nullptr, 16);
 
         if (!Crypto::Random::random(salt->data(), 12, Crypto::Random::Strong)) {
 
@@ -1079,7 +1082,7 @@ uint64_t Store::createBlob(const std::string &table, uint32_t size, bool encrypt
  * @return
  */
 
-uint64_t Store::createBlob(const std::string &table, BUFFER data, bool encrypt)
+uint64_t Store::createBlob(const std::string &table, MemoryBuffer$ data, bool encrypt)
 {
     Object rec;
 
@@ -1122,7 +1125,7 @@ uint64_t Store::createBlob(const std::string &table, BUFFER data, bool encrypt)
 
 uint64_t Store::createBlob(const std::string &table, const Object &data, bool encrypt)
 {
-    BUFFER buf = Value::write(data);
+    MemoryBuffer$ buf = Value::write(data);
 
     if (!buf) {
 
@@ -1146,7 +1149,7 @@ uint64_t Store::createBlob(const std::string &table, const Object &data, bool en
  * @return
  */
 
-Store::BLOB Store::openBlob(const std::string &table, uint64_t id, bool readOnly, bool meta, bool mode, uint32_t size, BUFFER salt)
+Store::BLOB Store::openBlob(const std::string &table, uint64_t id, bool readOnly, bool meta, bool mode, uint32_t size, MemoryBuffer$ salt)
 {
     BLOB blob(new Blob(this));
 
@@ -1167,7 +1170,7 @@ Store::BLOB Store::openBlob(const std::string &table, uint64_t id, bool readOnly
  * @return
  */
 
-uint32_t Store::updateBlobData(const std::string &table, uint64_t id, BUFFER data, bool encrypt)
+uint32_t Store::updateBlobData(const std::string &table, uint64_t id, MemoryBuffer$ data, bool encrypt)
 {
     if (!data) {
 
@@ -1179,11 +1182,11 @@ uint32_t Store::updateBlobData(const std::string &table, uint64_t id, BUFFER dat
     rec["mode"] = encrypt;
     rec["size"] = data->size();
 
-    BUFFER salt;
+    MemoryBuffer$ salt;
 
     if (encrypt) {
 
-        salt = Buffer::create(nullptr, 16);
+        salt = MemoryBuffer::create(nullptr, 16);
 
         if (!Crypto::Random::random(salt->data(), 12, Crypto::Random::Strong)) {
 
@@ -1230,7 +1233,7 @@ uint32_t Store::updateBlobData(const std::string &table, uint64_t id, BUFFER dat
 
 uint32_t Store::updateBlobData(const std::string &table, uint64_t id, const Object &data, bool encrypt)
 {
-    BUFFER buf = Value::write(data);
+    MemoryBuffer$ buf = Value::write(data);
 
     if (!buf) {
 
@@ -1273,15 +1276,15 @@ bool Store::removeBlob(const std::string &table, uint64_t id)
  * @return
  */
 
-BUFFER Store::getBlobData(const std::string &table, uint64_t id)
+MemoryBuffer$ Store::getBlobData(const std::string &table, uint64_t id)
 {
-    BUFFER buf;
+    MemoryBuffer$ buf;
 
     readBlob(table, id, [&buf] (bool error, BLOB blob) {
 
         if (!error) {
 
-            buf = Buffer::create(nullptr, blob->size());
+            buf = MemoryBuffer::create(nullptr, blob->size());
 
             if (buf) {
 
@@ -1306,7 +1309,7 @@ BUFFER Store::getBlobData(const std::string &table, uint64_t id)
 
 bool Store::getBlobData(const std::string &table, uint64_t id, Object &data)
 {
-    BUFFER buf = getBlobData(table, id);
+    MemoryBuffer$ buf = getBlobData(table, id);
 
     if (!buf) {
 
@@ -1857,7 +1860,7 @@ int32_t Store::Action::bindUbjToStmt()
 
     for (auto &value : m_bound) {
 
-        BUFFER buf = value.buffer();
+        MemoryBuffer$ buf = value.buffer();
 
         switch (value.type()) {
         case UBJ_OBJECT:
@@ -1878,7 +1881,7 @@ int32_t Store::Action::bindUbjToStmt()
 
                 // serialize object and store it as blob
 
-                BUFFER buf = Value::write(value);
+                MemoryBuffer$ buf = Value::write(value);
 
                 if (buf) {
 
@@ -1899,7 +1902,7 @@ int32_t Store::Action::bindUbjToStmt()
 
                 // serialize array and store it as blob
 
-                BUFFER buf = Value::write(value);
+                MemoryBuffer$ buf = Value::write(value);
 
                 if (buf) {
 
@@ -1964,7 +1967,7 @@ bool Store::Action::rowToUbj(Object &obj)
 
             int32_t numBytes = sqlite3_column_bytes(m_stmt, i);
 
-            BUFFER buf = Buffer::create(sqlite3_column_text(m_stmt, i), numBytes);
+            MemoryBuffer$ buf = MemoryBuffer::create(sqlite3_column_text(m_stmt, i), numBytes);
 
             if (!buf) {
 
@@ -1978,7 +1981,7 @@ bool Store::Action::rowToUbj(Object &obj)
 
             int32_t numBytes = sqlite3_column_bytes(m_stmt, i);
 
-            BUFFER buf = Buffer::create((uint8_t*)sqlite3_column_blob(m_stmt, i), numBytes);
+            MemoryBuffer$ buf = MemoryBuffer::create((uint8_t*)sqlite3_column_blob(m_stmt, i), numBytes);
 
             if (!buf) {
 
@@ -2912,7 +2915,7 @@ Store::Blob::~Blob()
  * @return
  */
 
-bool Store::Blob::open(const std::string &table, uint64_t id, bool readOnly, bool meta, bool mode, uint32_t size, BUFFER salt)
+bool Store::Blob::open(const std::string &table, uint64_t id, bool readOnly, bool meta, bool mode, uint32_t size, MemoryBuffer$ salt)
 {
     Object info;
 
@@ -3000,7 +3003,7 @@ bool Store::Blob::read(uint8_t *data, uint32_t size, uint32_t offset, uint32_t *
  * @return
  */
 
-bool Store::Blob::read(BUFFER data, uint32_t size, uint32_t offset, uint32_t *bytesRead)
+bool Store::Blob::read(MemoryBuffer$ data, uint32_t size, uint32_t offset, uint32_t *bytesRead)
 {
     if (!data || !data->size() || (data->size() < size)) {
 
@@ -3072,7 +3075,7 @@ bool Store::Blob::write(const uint8_t *data, uint32_t size, uint32_t offset, uin
  * @return
  */
 
-bool Store::Blob::write(BUFFER data, uint32_t size, uint32_t offset, uint32_t *bytesWritten)
+bool Store::Blob::write(MemoryBuffer$ data, uint32_t size, uint32_t offset, uint32_t *bytesWritten)
 {
     if (!data || !data->size() || (size > data->size())) {
 
@@ -3129,6 +3132,16 @@ Crypto::AES &Store::Blob::aes()
     return m_aes;
 }
 
+/**
+ * @brief Store::Blob::size
+ * @return
+ */
+
+uint32_t Store::Blob::size()
+{
+    return m_size;
+}
+
 // ============================================================ //
 
 /**
@@ -3137,9 +3150,9 @@ Crypto::AES &Store::Blob::aes()
  * @return
  */
 
-STORE_HANDLER StoreHandler::create(const STORE &store)
+StoreHandler$ StoreHandler::create(const Store$ &store)
 {
-    return STORE_HANDLER(new StoreHandler(store));
+    return StoreHandler$(new StoreHandler(store));
 }
 
 /**
@@ -3147,7 +3160,7 @@ STORE_HANDLER StoreHandler::create(const STORE &store)
  * @param store
  */
 
-StoreHandler::StoreHandler(const STORE &store)
+StoreHandler::StoreHandler(const Store$ &store)
     : m_store(store)
 {
     sqlite3_busy_handler(m_store->db(), &StoreHandler::busyHandler, this);

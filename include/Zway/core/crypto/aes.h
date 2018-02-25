@@ -27,9 +27,13 @@
 #ifndef ZWAY_CRYPTO_AES_H_
 #define ZWAY_CRYPTO_AES_H_
 
-#include "Zway/core/buffer.h"
+#include "Zway/types.h"
 
-namespace Zway { namespace Crypto {
+namespace Zway {
+
+USING_SHARED_PTR(MemoryBuffer)
+
+namespace Crypto {
 
 // ============================================================ //
 
@@ -47,17 +51,17 @@ public:
 
     ~AES();
 
-    void setKey(BUFFER key);
+    void setKey(MemoryBuffer$ key);
 
-    void setCtr(BUFFER ctr);
+    void setCtr(MemoryBuffer$ ctr);
 
     bool encrypt(void* src, void* dst, uint32_t size, Callback callback=nullptr);
 
-    bool encrypt(BUFFER src, BUFFER dst, uint32_t size, Callback callback=nullptr);
+    bool encrypt(MemoryBuffer$ src, MemoryBuffer$ dst, uint32_t size, Callback callback=nullptr);
 
     bool decrypt(void* src, void* dst, uint32_t size, Callback callback=nullptr);
 
-    bool decrypt(BUFFER src, BUFFER dst, uint32_t size, Callback callback=nullptr);
+    bool decrypt(MemoryBuffer$ src, MemoryBuffer$ dst, uint32_t size, Callback callback=nullptr);
 
     int getCtr();
 

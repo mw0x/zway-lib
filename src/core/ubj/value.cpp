@@ -28,6 +28,7 @@
 #include "Zway/core/ubj/reader.h"
 #include "Zway/core/ubj/writer.h"
 #include "Zway/core/ubj/dumper.h"
+#include "Zway/core/memorybuffer.h"
 
 #include <cstring>
 #include <sstream>
@@ -43,7 +44,7 @@ namespace Zway { namespace UBJ {
  * @return
  */
 
-bool Value::read(Value &val, const BUFFER &data)
+bool Value::read(Value &val, const MemoryBuffer$ &data)
 {
     return UBJ::Reader().read(val, data);
 }
@@ -68,7 +69,7 @@ bool Value::read(Value &val, const uint8_t *data, uint32_t size)
  * @return
  */
 
-bool Value::read(Object &obj, const BUFFER &data)
+bool Value::read(Object &obj, const MemoryBuffer$ &data)
 {
     if (!data) {
 
@@ -107,7 +108,7 @@ bool Value::read(Object &obj, const uint8_t *data, uint32_t size)
  * @return
  */
 
-bool Value::read(Array &arr, const BUFFER &data)
+bool Value::read(Array &arr, const MemoryBuffer$ &data)
 {
     if (!data) {
 
@@ -145,7 +146,7 @@ bool Value::read(Array &arr, const uint8_t *data, uint32_t size)
  * @return
  */
 
-BUFFER Value::write(const Value &val)
+MemoryBuffer$ Value::write(const Value &val)
 {
     return UBJ::Writer().write(val);
 }
@@ -295,7 +296,7 @@ Value::Value(bool val)
  * @param buf
  */
 
-Value::Value(BUFFER buf)
+Value::Value(MemoryBuffer$ buf)
     : m_type(buf ? UBJ_ARRAY : UBJ_NULLTYPE),
       m_buffer(buf)
 {
@@ -669,7 +670,7 @@ Value Value::copy() const
  * @return
  */
 
-BUFFER Value::buffer() const
+MemoryBuffer$ Value::buffer() const
 {
     return m_buffer;
 }
@@ -807,7 +808,7 @@ bool Value::setString(const char* str, uint32_t len)
         return false;
     }
 
-    m_buffer = Buffer::create(nullptr, l);
+    m_buffer = MemoryBuffer::create(nullptr, l);
 
     if (!m_buffer) {
 
@@ -840,7 +841,7 @@ bool Value::setBuffer(const uint8_t* data, uint32_t size, UBJ_TYPE type)
     }
     else {
 
-        m_buffer = Buffer::create(data, size);
+        m_buffer = MemoryBuffer::create(data, size);
 
         if (!m_buffer) {
 

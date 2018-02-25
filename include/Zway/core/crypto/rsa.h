@@ -46,22 +46,22 @@ public:
             UBJ::Object &privateKeyObj,
             uint32_t bits);
 
-    static BUFFER encrypt(
+    static MemoryBuffer$ encrypt(
             const UBJ::Object &publicKeyObj,
-            BUFFER buf);
+            MemoryBuffer$ buf);
 
-    static BUFFER decrypt(
+    static MemoryBuffer$ decrypt(
             const UBJ::Object &privateKeyObj,
-            BUFFER buf);
+            MemoryBuffer$ buf);
 
-    static BUFFER sign(
+    static MemoryBuffer$ sign(
             const UBJ::Object &privateKeyObj,
-            BUFFER buf);
+            MemoryBuffer$ buf);
 
     static bool verify(
             const UBJ::Object &publicKeyObj,
-            BUFFER buf,
-            BUFFER sign);
+            MemoryBuffer$ buf,
+            MemoryBuffer$ sign);
 };
 
 // ============================================================ //

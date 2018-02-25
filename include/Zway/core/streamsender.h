@@ -31,7 +31,9 @@
 
 namespace Zway {
 
-class Client;
+USING_SHARED_PTR(StreamSender)
+
+using StreamSenderCallback = std::function<void (StreamSender$)>;
 
 // ============================================================ //
 
@@ -56,7 +58,7 @@ public:
 
     virtual ~StreamSender();
 
-    virtual bool process(PACKET &pkt);
+    virtual bool process(Packet$ &pkt);
 
     uint32_t id();
 
@@ -74,13 +76,13 @@ protected:
             uint32_t id,
             Packet::StreamType type,
             uint32_t parts = 0,
-            STREAM_SENDER_CALLBACK callback = nullptr);
+            StreamSenderCallback callback = nullptr);
 
     bool init(uint32_t streamSize = 0);
 
-    virtual bool preparePacket(PACKET &pkt, uint32_t bytesToSend, uint32_t bytesSent);
+    virtual bool preparePacket(Packet$ &pkt, uint32_t bytesToSend, uint32_t bytesSent);
 
-    virtual bool processPacket(PACKET &pkt);
+    virtual bool processPacket(Packet$ &pkt);
 
     virtual void invokeCallback();
 
@@ -92,7 +94,7 @@ protected:
 
     Status m_status;
 
-    STREAM_SENDER_CALLBACK m_callback;
+    StreamSenderCallback m_callback;
 
     uint32_t m_size;
 
@@ -100,7 +102,7 @@ protected:
 
     uint32_t m_parts;
 
-    BUFFER m_body;
+    MemoryBuffer$ m_body;
 };
 
 // ============================================================ //

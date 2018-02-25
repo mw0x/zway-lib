@@ -32,14 +32,14 @@ namespace Zway {
 
 // ============================================================ //
 
-CONFIG_REQUEST ConfigRequest::create(CLIENT client, const UBJ::Object &config, REQUEST_CALLBACK callback)
+ConfigRequest$ ConfigRequest::create(Client$ client, const UBJ::Object &config, RequestCallback callback)
 {
-    return CONFIG_REQUEST(new ConfigRequest(client, config, callback));
+    return ConfigRequest$(new ConfigRequest(client, config, callback));
 }
 
 // ============================================================ //
 
-ConfigRequest::ConfigRequest(CLIENT client, const UBJ::Object &config, REQUEST_CALLBACK callback)
+ConfigRequest::ConfigRequest(Client$ client, const UBJ::Object &config, RequestCallback callback)
     : Request(Config, {}, DEFAULT_TIMEOUT, callback),
       m_client(client)
 {

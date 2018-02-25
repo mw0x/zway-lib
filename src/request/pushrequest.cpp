@@ -25,7 +25,14 @@
 // ============================================================ //
 
 #include "Zway/request/pushrequest.h"
+#include "Zway/request/requestevent.h"
 #include "Zway/message/resourcesender.h"
+#include "Zway/message/resource.h"
+#include "Zway/core/memorybuffer.h"
+#include "Zway/core/crypto/crypto.h"
+#include "Zway/core/crypto/random.h"
+#include "Zway/core/crypto/rsa.h"
+#include "Zway/store/store.h"
 #include "Zway/client.h"
 
 namespace Zway {
@@ -39,14 +46,14 @@ namespace Zway {
  * @return
  */
 
-BUFFER PushRequest::resourceSalt(BUFFER salt, uint32_t resourceId)
+MemoryBuffer$ PushRequest::resourceSalt(MemoryBuffer$ salt, uint32_t resourceId)
 {
     if (!salt) {
 
         return nullptr;
     }
 
-    BUFFER res = salt->copy();
+    MemoryBuffer$ res = salt->copy();
 
     if (!res) {
 
@@ -73,9 +80,9 @@ BUFFER PushRequest::resourceSalt(BUFFER salt, uint32_t resourceId)
  * @return
  */
 
-PUSH_REQUEST PushRequest::create(CLIENT client, MESSAGE msg, uint32_t id, REQUEST_CALLBACK callback)
+PushRequest$ PushRequest::create(Client$ client, Message$ msg, uint32_t id, RequestCallback callback)
 {
-    PUSH_REQUEST request(new PushRequest(client, msg, id, callback));
+    PushRequest$ request(new PushRequest(client, msg, id, callback));
 
     if (!request->init()) {
 
@@ -93,7 +100,7 @@ PUSH_REQUEST PushRequest::create(CLIENT client, MESSAGE msg, uint32_t id, REQUES
  * @param callback
  */
 
-PushRequest::PushRequest(CLIENT client, MESSAGE msg, uint32_t id, REQUEST_CALLBACK callback)
+PushRequest::PushRequest(Client$ client, Message$ msg, uint32_t id, RequestCallback callback)
     : Request(Push, UBJ_OBJ("requestId" << id), DEFAULT_TIMEOUT, callback),
       m_client(client),
       m_msg(msg)
@@ -122,7 +129,7 @@ bool PushRequest::init()
 
     // create message key
 
-    m_key = Buffer::create(nullptr, 32);
+    m_key = MemoryBuffer::create(nullptr, 32);
 
     if (!m_key) {
 
@@ -136,7 +143,7 @@ bool PushRequest::init()
 
     // create salt
 
-    m_salt = Buffer::create(nullptr, 16);
+    m_salt = MemoryBuffer::create(nullptr, 16);
 
     if (!m_salt) {
 
@@ -186,7 +193,7 @@ bool PushRequest::init()
 
             // encrypt message key
 
-            BUFFER keyEnc = Crypto::RSA::encrypt(contact["publicKey"], m_key);
+            MemoryBuffer$ keyEnc = Crypto::RSA::encrypt(contact["publicKey"], m_key);
 
             if (!keyEnc) {
 
@@ -212,7 +219,7 @@ bool PushRequest::init()
 
     for (uint32_t i=0; i<m_msg->numResources(); ++i) {
 
-        RESOURCE res = m_msg->resource(i);
+        Resource$ res = m_msg->resource(i);
 
         // create resource id
 
@@ -243,7 +250,7 @@ bool PushRequest::init()
 
     // encrypt meta data
 
-    BUFFER metaBuf = UBJ::Value::write(meta);
+    MemoryBuffer$ metaBuf = UBJ::Value::write(meta);
 
     if (!metaBuf) {
 
@@ -301,7 +308,7 @@ bool PushRequest::init()
  * @param index
  */
 
-void PushRequest::pushResources(PUSH_REQUEST request, const UBJ::Array &ids, const std::function<void (PUSH_REQUEST)> &callback, uint32_t index)
+void PushRequest::pushResources(PushRequest$ request, const UBJ::Array &ids, const std::function<void (PushRequest$)> &callback, uint32_t index)
 {
     if (ids.empty()) {
 
@@ -314,15 +321,15 @@ void PushRequest::pushResources(PUSH_REQUEST request, const UBJ::Array &ids, con
 
     uint32_t id = ids[index].toInt();
 
-    RESOURCE res = request->message()->resourceById(id);
+    Resource$ res = request->message()->resourceById(id);
 
     if (res) {
 
-        BUFFER salt = resourceSalt(request->m_salt, id);
+        MemoryBuffer$ salt = resourceSalt(request->m_salt, id);
 
         auto sender = ResourceSender::create(
                     res, request->m_key, salt,
-                    [request, ids, id, callback, index] (STREAM_SENDER sender) {
+                    [request, ids, id, callback, index] (StreamSender$ sender) {
 
             if (sender->status() == StreamSender::Completed) {
 
@@ -475,7 +482,7 @@ bool PushRequest::processResponse(const UBJ::Object &response)
 
             for (auto &it : resources) {
 
-                RESOURCE resource = m_msg->resourceById(it.toInt());
+                Resource$ resource = m_msg->resourceById(it.toInt());
 
                 std::string name = resource->name();
 
@@ -501,7 +508,7 @@ bool PushRequest::processResponse(const UBJ::Object &response)
             pushResources(
                         std::dynamic_pointer_cast<PushRequest>(shared_from_this()),
                         response["resources"],
-                        [response, resources] (PUSH_REQUEST request) {
+                        [response, resources] (PushRequest$ request) {
 
                 uint32_t numResources = request->m_client->store()->count(
                             "resources",
@@ -569,7 +576,7 @@ bool PushRequest::processResponse(const UBJ::Object &response)
  * @return
  */
 
-MESSAGE PushRequest::message()
+Message$ PushRequest::message()
 {
     return m_msg;
 }

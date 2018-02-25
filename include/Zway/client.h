@@ -28,9 +28,7 @@
 #define ZWAY_CLIENT_H_
 
 #include "Zway/core/engine.h"
-#include "Zway/core/crypto/crypto.h"
-#include "Zway/core/thread/handler.h"
-#include "Zway/types.h"
+#include "Zway/event/eventhandler.h"
 
 #if defined _WIN32
 #include <windows.h>
@@ -40,8 +38,10 @@
 
 namespace Zway {
 
-extern const uint16_t ZWAY_PORT;
+USING_SHARED_PTR(Store)
+USING_SHARED_PTR(Message)
 
+extern const uint16_t ZWAY_PORT;
 extern const uint32_t RECONNECT_INTERVAL;
 
 // ============================================================ //
@@ -50,7 +50,7 @@ extern const uint32_t RECONNECT_INTERVAL;
  * @brief The Sender class
  */
 
-class Sender : public Handler<PACKET>
+class Sender : public Handler<Packet$>
 {
 public:
 
@@ -60,11 +60,11 @@ public:
 
 protected:
 
-    void process(PACKET &packet);
+    void process(Packet$ &packet);
 
     bool getElements();
 
-    uint32_t sendPacket(PACKET pkt);
+    uint32_t sendPacket(Packet$ pkt);
 
 protected:
 
@@ -155,7 +155,7 @@ public:
     static void cleanup();
 
 
-    static CLIENT create(EVENT_HANDLER handler=nullptr, EVENT_HANDLER_CALLBACK callback=nullptr);
+    static Client$ create(EventHandler$ handler=nullptr, EventHandlerCallback callback=nullptr);
 
 
     virtual ~Client();
@@ -166,30 +166,30 @@ public:
     bool close();
 
 
-    void setStore(STORE store);
+    void setStore(Store$ store);
 
-    void setEventHandler(EVENT_HANDLER handler);
-
-
-    bool request(const UBJ::Object &args, REQUEST_CALLBACK callback=nullptr);
+    void setEventHandler(EventHandler$ handler);
 
 
-    void postEvent(EVENT event, bool immediately = false);
-
-    bool postRequest(REQUEST request);
-
-    bool postMessage(MESSAGE message);
+    bool request(const UBJ::Object &args, RequestCallback callback=nullptr);
 
 
-    bool addStreamSender(STREAM_SENDER sender);
+    void postEvent(Event$ event, bool immediately = false);
+
+    bool postRequest(Request$ request);
+
+    bool postMessage(Message$ message);
+
+
+    bool addStreamSender(StreamSender$ sender);
 
 
     Status status();
 
 
-    STORE store();
+    Store$ store();
 
-    EVENT_HANDLER eventHandler();
+    EventHandler$ eventHandler();
 
 
     uint32_t contactStatus(uint32_t contactId);
@@ -198,7 +198,7 @@ public:
 protected:
 
 
-    Client(EVENT_HANDLER handler=nullptr);
+    Client(EventHandler$ handler=nullptr);
 
 
     void setStatus(Status status, bool event=true);
@@ -229,9 +229,9 @@ protected:
 
     bool processIncomingRequest(const UBJ::Object &request);
 
-    STREAM_RECEIVER createStreamReceiver(const Packet &packet);
+    StreamReceiver$ createStreamReceiver(const Packet &packet);
 
-    bool processRequestTimeout(REQUEST request);
+    bool processRequestTimeout(Request$ request);
 
 
     bool processDispatchRequest(const UBJ::Object &request);
@@ -280,10 +280,10 @@ protected:
 
     Receiver m_receiver;
 
-    EVENT_HANDLER m_eventHandler;
+    EventHandler$ m_eventHandler;
 
 
-    STORE m_store;
+    Store$ m_store;
 
 
     ThreadSafe<std::map<uint32_t, uint32_t>> m_contactStatus;

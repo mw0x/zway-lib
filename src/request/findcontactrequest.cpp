@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/request/findcontactrequest.h"
+#include "Zway/request/requestevent.h"
 #include "Zway/client.h"
 
 namespace Zway {
@@ -39,12 +40,12 @@ namespace Zway {
  * @return
  */
 
-FIND_CONTACT_REQUEST FindContactRequest::create(
-        CLIENT client,
+FindContactRequest$ FindContactRequest::create(
+        Client$ client,
         const UBJ::Object &args,
-        REQUEST_CALLBACK callback)
+        RequestCallback callback)
 {
-    FIND_CONTACT_REQUEST request(new FindContactRequest(client, args, callback));
+    FindContactRequest$ request(new FindContactRequest(client, args, callback));
 
     if (!request->init()) {
 
@@ -62,9 +63,9 @@ FIND_CONTACT_REQUEST FindContactRequest::create(
  */
 
 FindContactRequest::FindContactRequest(
-        CLIENT client,
+        Client$ client,
         const UBJ::Object &args,
-        REQUEST_CALLBACK callback)
+        RequestCallback callback)
     : Request(FindContact, args, DEFAULT_TIMEOUT, callback),
       m_client(client)
 {

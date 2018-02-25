@@ -29,7 +29,11 @@
 
 #include "Zway/core/ubj/value.h"
 
-namespace Zway { namespace UBJ {
+namespace Zway {
+
+USING_SHARED_PTR(Buffer)
+
+namespace UBJ {
 
 // ============================================================ //
 
@@ -41,7 +45,7 @@ class Reader
 {
 public:
 
-    bool read(Value &val, const BUFFER &buf);
+    bool read(Value &val, const MemoryBuffer$ &buf);
 
     bool read(Value &val, const uint8_t *data, uint32_t size);
 

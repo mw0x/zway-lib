@@ -27,12 +27,14 @@
 #ifndef RESOURCE_H_
 #define RESOURCE_H_
 
-#include "Zway/store/store.h"
-#include "Zway/core/thread/safe.h"
+#include "Zway/core/ubj/value.h"
 
 #include <fstream>
 
 namespace Zway {
+
+USING_SHARED_PTR(Store)
+USING_SHARED_PTR(Resource)
 
 // ============================================================ //
 
@@ -72,7 +74,7 @@ public:
         Error
     };
 
-    static RESOURCE create();
+    static Resource$ create();
 
     virtual ~Resource();
 
@@ -86,9 +88,9 @@ public:
 
     virtual void close();
 
-    virtual bool read(BUFFER buf, uint32_t size, uint32_t offset);
+    virtual bool read(MemoryBuffer$ buf, uint32_t size, uint32_t offset);
 
-    virtual bool readAll(BUFFER buf);
+    virtual bool readAll(MemoryBuffer$ buf);
 
     uint32_t id();
 
@@ -110,7 +112,7 @@ protected:
 
     uint32_t m_parts;
 
-    BUFFER m_data;
+    MemoryBuffer$ m_data;
 
 };
 
@@ -124,7 +126,7 @@ class FileSystemResource : public Resource
 {
 public:
 
-    static RESOURCE create(const std::string& path, const std::string &name = std::string());
+    static Resource$ create(const std::string& path, const std::string &name = std::string());
 
 protected:
 
@@ -144,17 +146,17 @@ class LocalStoreResource : public Resource
 {
 public:
 
-    static RESOURCE create(STORE storage, uint32_t nodeId, uint32_t resourceId=0);
+    static Resource$ create(Store$ store, uint32_t nodeId, uint32_t resourceId=0);
 
 protected:
 
-    LocalStoreResource(STORE storage);
+    LocalStoreResource(Store$ store);
 
     bool init(uint32_t nodeId, uint32_t resourceId);
 
 protected:
 
-    STORE m_store;
+    Store$ m_store;
 };
 
 // ============================================================ //

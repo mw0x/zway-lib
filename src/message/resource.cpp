@@ -24,8 +24,12 @@
 //
 // ============================================================ //
 
-#include "Zway/message/resource.h"
+#include "Zway/core/crypto/crypto.h"
+#include "Zway/core/crypto/digest.h"
 #include "Zway/core/packet.h"
+#include "Zway/core/memorybuffer.h"
+#include "Zway/message/resource.h"
+#include "Zway/store/store.h"
 
 namespace Zway {
 
@@ -36,9 +40,9 @@ namespace Zway {
  * @return
  */
 
-RESOURCE Resource::create()
+Resource$ Resource::create()
 {
-    return RESOURCE(new Resource());
+    return Resource$(new Resource());
 }
 
 /**
@@ -118,7 +122,7 @@ void Resource::close()
  * @return
  */
 
-bool Resource::read(BUFFER buf, uint32_t size, uint32_t offset)
+bool Resource::read(MemoryBuffer$ buf, uint32_t size, uint32_t offset)
 {
     if (!m_data) {
 
@@ -144,7 +148,7 @@ bool Resource::read(BUFFER buf, uint32_t size, uint32_t offset)
  * @return
  */
 
-bool Resource::readAll(BUFFER buf)
+bool Resource::readAll(MemoryBuffer$ buf)
 {
     return read(buf, size(), 0);
 }
@@ -218,7 +222,7 @@ std::string Resource::hash()
  * @return
  */
 
-RESOURCE FileSystemResource::create(const std::string &path, const std::string &name)
+Resource$ FileSystemResource::create(const std::string &path, const std::string &name)
 {
     std::shared_ptr<FileSystemResource> res(new FileSystemResource(path, name));
 
@@ -271,7 +275,7 @@ bool FileSystemResource::init(const std::string &path)
         return false;
     }
 
-    m_data = Buffer::create(nullptr, size);
+    m_data = MemoryBuffer::create(nullptr, size);
 
     if (!m_data) {
 
@@ -284,7 +288,7 @@ bool FileSystemResource::init(const std::string &path)
 
     uint32_t bytesRead = 0;
 
-    BUFFER buf = Buffer::create(nullptr, chunkSize);
+    MemoryBuffer$ buf = MemoryBuffer::create(nullptr, chunkSize);
 
     while (bytesRead < size) {
 
@@ -323,7 +327,7 @@ bool FileSystemResource::init(const std::string &path)
  * @return
  */
 
-RESOURCE LocalStoreResource::create(STORE store, uint32_t nodeId, uint32_t resourceId)
+Resource$ LocalStoreResource::create(Store$ store, uint32_t nodeId, uint32_t resourceId)
 {
     std::shared_ptr<LocalStoreResource> res(new LocalStoreResource(store));
 
@@ -340,7 +344,7 @@ RESOURCE LocalStoreResource::create(STORE store, uint32_t nodeId, uint32_t resou
  * @param store
  */
 
-LocalStoreResource::LocalStoreResource(STORE store)
+LocalStoreResource::LocalStoreResource(Store$ store)
     : m_store(store)
 {
     setType(LocalStore);
@@ -387,7 +391,7 @@ bool LocalStoreResource::init(uint32_t nodeId, uint32_t resourceId)
 
         if (!error) {
 
-            BUFFER data = Buffer::create(nullptr, blobSize);
+            MemoryBuffer$ data = MemoryBuffer::create(nullptr, blobSize);
 
             if (!data) {
 

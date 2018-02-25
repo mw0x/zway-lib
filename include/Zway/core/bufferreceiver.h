@@ -31,6 +31,10 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(BufferReceiver)
+
+using BufferReceiverCallback = std::function<void (BufferReceiver$, MemoryBuffer$, uint32_t)>;
+
 // ============================================================ //
 
 /**
@@ -41,20 +45,20 @@ class BufferReceiver : public StreamReceiver
 {
 public:
 
-    static BUFFER_RECEIVER create(
+    static BufferReceiver$ create(
             const Packet &pkt,
-            BUFFER buffer,
-            BUFFER_RECEIVER_CALLBACK callback = nullptr);
+            MemoryBuffer$ buffer,
+            BufferReceiverCallback callback = nullptr);
 
-    BUFFER buffer();
+    MemoryBuffer$ buffer();
 
     uint32_t bytesReceived();
 
 protected:
 
-    BufferReceiver(BUFFER_RECEIVER_CALLBACK callback = nullptr);
+    BufferReceiver(BufferReceiverCallback callback = nullptr);
 
-    bool init(const Packet &pkt, BUFFER buffer = nullptr);
+    bool init(const Packet &pkt, MemoryBuffer$ buffer = nullptr);
 
     bool processPacket(Packet &pkt);
 
@@ -62,9 +66,9 @@ protected:
 
 protected:
 
-    BUFFER_RECEIVER_CALLBACK m_callback;
+    BufferReceiverCallback m_callback;
 
-    Zway::BUFFER m_buffer;
+    MemoryBuffer$ m_buffer;
 
     uint32_t m_bytesReceived;
 

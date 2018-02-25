@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/core/streamsender.h"
+#include "Zway/core/memorybuffer.h"
 
 namespace Zway {
 
@@ -42,7 +43,7 @@ StreamSender::StreamSender(
         uint32_t id,
         Packet::StreamType type,
         uint32_t parts,
-        STREAM_SENDER_CALLBACK callback)
+        StreamSenderCallback callback)
     : m_id(id),
       m_type(type),
       m_status(Idle),
@@ -62,7 +63,7 @@ StreamSender::StreamSender(
 
 bool StreamSender::init(uint32_t streamSize)
 {
-    m_body = Buffer::create(nullptr, MAX_PACKET_BODY);
+    m_body = MemoryBuffer::create(nullptr, MAX_PACKET_BODY);
 
     if (!m_body) {
 
@@ -99,7 +100,7 @@ StreamSender::~StreamSender()
  * @return
  */
 
-bool StreamSender::process(PACKET &pkt)
+bool StreamSender::process(Packet$ &pkt)
 {
     uint32_t bytesSent = m_part * MAX_PACKET_BODY;
 
@@ -167,7 +168,7 @@ bool StreamSender::process(PACKET &pkt)
  * @return
  */
 
-bool StreamSender::preparePacket(PACKET &pkt, uint32_t bytesToSend, uint32_t bytesSent)
+bool StreamSender::preparePacket(Packet$ &pkt, uint32_t bytesToSend, uint32_t bytesSent)
 {
     pkt->setStreamId(m_id);
 
@@ -186,7 +187,7 @@ bool StreamSender::preparePacket(PACKET &pkt, uint32_t bytesToSend, uint32_t byt
  * @return
  */
 
-bool StreamSender::processPacket(PACKET &pkt)
+bool StreamSender::processPacket(Packet$ &pkt)
 {
     return true;
 }

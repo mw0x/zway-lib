@@ -25,6 +25,7 @@
 // ============================================================ //
 
 #include "Zway/core/ubj/writer.h"
+#include "Zway/core/memorybuffer.h"
 
 #include <vector>
 
@@ -38,7 +39,7 @@ namespace Zway { namespace UBJ {
  * @return
  */
 
-BUFFER Writer::write(const Value &val)
+MemoryBuffer$ Writer::write(const Value &val)
 {
     std::vector<uint8_t> buf;
 
@@ -79,7 +80,7 @@ BUFFER Writer::write(const Value &val)
         writeArray(val, ctx);
     }
 
-    return Buffer::create(&buf[0], buf.size());
+    return MemoryBuffer::create(&buf[0], buf.size());
 }
 
 /**

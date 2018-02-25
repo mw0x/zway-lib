@@ -27,9 +27,12 @@
 #ifndef ZWAY_CORE_PACKET_H_
 #define ZWAY_CORE_PACKET_H_
 
-#include "Zway/core/buffer.h"
+#include "Zway/types.h"
 
 namespace Zway {
+
+USING_SHARED_PTR(Packet)
+USING_SHARED_PTR(MemoryBuffer)
 
 extern const uint32_t MAX_PACKET_HEAD;
 extern const uint32_t MAX_PACKET_BODY;
@@ -68,7 +71,7 @@ public:
         uint32_t bodySize;
     };
 
-    static PACKET create(uint32_t id = 0);
+    static Packet$ create(uint32_t id = 0);
 
     Packet(uint32_t id = 0);
 
@@ -88,7 +91,7 @@ public:
 
     uint8_t *bodyData();
 
-    BUFFER body();
+    MemoryBuffer$ body();
 
     void setId(uint32_t id);
 
@@ -102,13 +105,13 @@ public:
 
     void setBodySize(uint32_t size);
 
-    void setBody(BUFFER body, uint32_t size = 0);
+    void setBody(MemoryBuffer$ body, uint32_t size = 0);
 
 protected:
 
     Head m_head;
 
-    BUFFER m_body;
+    MemoryBuffer$ m_body;
 };
 
 // ============================================================ //

@@ -31,6 +31,9 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Client)
+USING_SHARED_PTR(CreateAddCodeRequest)
+
 // ============================================================ //
 
 /**
@@ -41,25 +44,25 @@ class CreateAddCodeRequest : public Request
 {
 public:
 
-    static CREATE_ADD_CODE_REQUEST create(
-            CLIENT client,
+    static CreateAddCodeRequest$ create(
+            Client$ client,
             const UBJ::Object &args,
-            REQUEST_CALLBACK callback = nullptr);
+            RequestCallback callback = nullptr);
 
     bool processResponse(const UBJ::Object &response);
 
 protected:
 
     CreateAddCodeRequest(
-            CLIENT client,
+            Client$ client,
             const UBJ::Object &args,
-            REQUEST_CALLBACK callback);
+            RequestCallback callback);
 
     bool init();
 
 protected:
 
-    CLIENT m_client;
+    Client$ m_client;
 };
 
 // ============================================================ //

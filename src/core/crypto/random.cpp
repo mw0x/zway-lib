@@ -26,8 +26,9 @@
 
 #include "Zway/core/crypto/random.h"
 
+#include <cstdio>
+
 #include <nettle/yarrow.h>
-#include <stdio.h>
 
 namespace Zway { namespace Crypto {
 

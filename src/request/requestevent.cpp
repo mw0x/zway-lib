@@ -37,7 +37,7 @@ namespace Zway {
  * @return
  */
 
-REQUEST_EVENT RequestEvent::cast(EVENT event)
+RequestEvent$ RequestEvent::cast(Event$ event)
 {
     return std::dynamic_pointer_cast<RequestEvent>(event);
 }
@@ -52,13 +52,13 @@ REQUEST_EVENT RequestEvent::cast(EVENT event)
  * @return
  */
 
-REQUEST_EVENT RequestEvent::create(
+RequestEvent$ RequestEvent::create(
         Type type,
-        REQUEST request,
+        Request$ request,
         const UBJ::Value &data,
         const UBJ::Value &error)
 {
-    return REQUEST_EVENT(new RequestEvent(type, request, data, error));
+    return RequestEvent$(new RequestEvent(type, request, data, error));
 }
 
 /**
@@ -72,7 +72,7 @@ REQUEST_EVENT RequestEvent::create(
 
 RequestEvent::RequestEvent(
         Type type,
-        REQUEST request,
+        Request$ request,
         const UBJ::Value &data,
         const UBJ::Value &error)
     : Event(type, data, error),
@@ -98,7 +98,7 @@ void RequestEvent::dispatch()
  * @return
  */
 
-REQUEST RequestEvent::request()
+Request$ RequestEvent::request()
 {
     return m_request;
 }

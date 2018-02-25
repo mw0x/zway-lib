@@ -39,13 +39,13 @@ namespace Zway {
  * @return
  */
 
-RESOURCE_RECEIVER ResourceReceiver::create(
+ResourceReceiver$ ResourceReceiver::create(
         const Packet &pkt,
-        BUFFER key,
-        BUFFER salt,
-        BUFFER_RECEIVER_CALLBACK callback)
+        MemoryBuffer$ key,
+        MemoryBuffer$ salt,
+        BufferReceiverCallback callback)
 {
-    RESOURCE_RECEIVER receiver = RESOURCE_RECEIVER(new ResourceReceiver(callback));
+    ResourceReceiver$ receiver(new ResourceReceiver(callback));
 
     if (!receiver->init(pkt, key, salt)) {
 
@@ -60,7 +60,7 @@ RESOURCE_RECEIVER ResourceReceiver::create(
  * @param callback
  */
 
-ResourceReceiver::ResourceReceiver(BUFFER_RECEIVER_CALLBACK callback)
+ResourceReceiver::ResourceReceiver(BufferReceiverCallback callback)
     : BufferReceiver(callback)
 {
 
@@ -74,7 +74,7 @@ ResourceReceiver::ResourceReceiver(BUFFER_RECEIVER_CALLBACK callback)
  * @return
  */
 
-bool ResourceReceiver::init(const Packet &pkt, BUFFER key, BUFFER salt)
+bool ResourceReceiver::init(const Packet &pkt, MemoryBuffer$ key, MemoryBuffer$ salt)
 {
     if (!(key && salt)) {
 

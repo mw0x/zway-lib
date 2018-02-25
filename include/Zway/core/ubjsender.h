@@ -32,6 +32,8 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(UbjSender)
+
 // ============================================================ //
 
 /**
@@ -42,11 +44,11 @@ class UbjSender : public BufferSender
 {
 public:
 
-    static UBJ_SENDER create(
+    static UbjSender$ create(
             uint32_t id,
             Packet::StreamType type,
             const UBJ::Value &value,
-            STREAM_SENDER_CALLBACK callback = nullptr);
+            StreamSenderCallback callback = nullptr);
 
 protected:
 
@@ -54,7 +56,7 @@ protected:
             uint32_t id,
             Packet::StreamType type,
             const UBJ::Value &value,
-            STREAM_SENDER_CALLBACK callback);
+            StreamSenderCallback callback);
 
     bool init(const UBJ::Value &value);
 

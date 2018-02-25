@@ -31,6 +31,8 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(StreamReceiver)
+
 // ============================================================ //
 
 /**

@@ -56,7 +56,7 @@ void EventHandler::clearHandlers()
  * @param handler
  */
 
-void EventHandler::addHandler(CLIENT client, EVENT_HANDLER_CALLBACK handler)
+void EventHandler::addHandler(Client$ client, EventHandlerCallback handler)
 {
     if (handler) {
 
@@ -71,7 +71,7 @@ void EventHandler::addHandler(CLIENT client, EVENT_HANDLER_CALLBACK handler)
  * @param client
  */
 
-void EventHandler::removeHandler(CLIENT client)
+void EventHandler::removeHandler(Client$ client)
 {
     MutexLocker locker(m_handlers);
 
@@ -87,7 +87,7 @@ void EventHandler::process(ClientEvent &event)
 {
     event.m_event->dispatch();
 
-    EVENT_HANDLER_CALLBACK handler;
+    EventHandlerCallback handler;
 
     {
         MutexLocker locker(m_handlers);

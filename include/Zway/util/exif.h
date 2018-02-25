@@ -27,8 +27,6 @@
 #ifndef ZWAY_EXIF_H_
 #define ZWAY_EXIF_H_
 
-#include "Zway/core/buffer.h"
-
 #include <libexif/exif-data.h>
 
 #include <string>

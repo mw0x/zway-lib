@@ -28,11 +28,13 @@
 #define MESSAGE_H_
 
 #include "Zway/core/ubj/value.h"
-#include "Zway/message/resource.h"
-
-#include "Zway/types.h"
 
 namespace Zway {
+
+USING_SHARED_PTR(Message)
+USING_SHARED_PTR(Resource)
+
+using ResourceList = std::deque<Resource$>;
 
 extern const uint32_t MAX_MESSAGE_PART;
 
@@ -65,7 +67,7 @@ public:
         Error
     };
 
-    static MESSAGE create(const UBJ::Object &msg = UBJ::Object());
+    static Message$ create(const UBJ::Object &msg = UBJ::Object());
 
     void setId(uint32_t id);
 
@@ -97,15 +99,15 @@ public:
 
     std::string text();
 
-    void addResource(RESOURCE res);
+    void addResource(Resource$ res);
 
-    void addResources(RESOURCE_LIST resources);
+    void addResources(ResourceList resources);
 
     uint32_t numResources();
 
-    RESOURCE resource(uint32_t index);
+    Resource$ resource(uint32_t index);
 
-    RESOURCE resourceById(uint32_t resourceId);
+    Resource$ resourceById(uint32_t resourceId);
 
 protected:
 
@@ -113,7 +115,7 @@ protected:
 
 protected:
 
-    RESOURCE_LIST m_resources;
+    ResourceList m_resources;
 
 };
 

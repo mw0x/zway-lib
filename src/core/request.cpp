@@ -25,7 +25,7 @@
 // ============================================================ //
 
 #include "Zway/core/request.h"
-#include "Zway/request/requestevent.h"
+#include "Zway/core/ubjsender.h"
 
 namespace Zway {
 
@@ -41,9 +41,9 @@ const uint32_t DEFAULT_TIMEOUT = 20;
  * @return
  */
 
-REQUEST Request::create(Request::Type type, UBJ::Object &args, uint32_t timeout, REQUEST_CALLBACK callback)
+Request$ Request::create(Request::Type type, UBJ::Object &args, uint32_t timeout, RequestCallback callback)
 {
-    REQUEST request(new Request(type, args, timeout, callback));
+    Request$ request(new Request(type, args, timeout, callback));
 
     return request;
 }
@@ -56,7 +56,7 @@ REQUEST Request::create(Request::Type type, UBJ::Object &args, uint32_t timeout,
  * @param callback
  */
 
-Request::Request(Type type, const UBJ::Object &args, uint32_t timeout, REQUEST_CALLBACK callback)
+Request::Request(Type type, const UBJ::Object &args, uint32_t timeout, RequestCallback callback)
     : m_type(type),
       m_status(Outgoing),
       m_id(args["requestId"].toInt()),
@@ -83,13 +83,13 @@ Request::~Request()
  * @return
  */
 
-STREAM_SENDER Request::start()
+StreamSender$ Request::start()
 {
     m_head["requestId"] = m_id;
 
     m_head["requestType"] = m_type;
 
-    STREAM_SENDER sender = UbjSender::create(m_id, Packet::Request, m_head, [this] (STREAM_SENDER sender) {
+    StreamSender$ sender = UbjSender::create(m_id, Packet::Request, m_head, [this] (StreamSender$ sender) {
 
         if (sender->status() == StreamSender::Completed) {
 
@@ -197,7 +197,7 @@ Request::Status Request::status()
  * @param event
  */
 
-void Request::invokeCallback(REQUEST_EVENT event)
+void Request::invokeCallback(RequestEvent$ event)
 {
     if (m_callback) {
 

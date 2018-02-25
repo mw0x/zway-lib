@@ -28,9 +28,12 @@
 #define RESOURCE_SENDER_H_
 
 #include "Zway/core/ubjsender.h"
-#include "Zway/core/crypto/crypto.h"
+#include "Zway/core/crypto/aes.h"
 
 namespace Zway {
+
+USING_SHARED_PTR(Resource)
+USING_SHARED_PTR(ResourceSender)
 
 // ============================================================ //
 
@@ -42,27 +45,27 @@ class ResourceSender : public StreamSender
 {
 public:
 
-    static RESOURCE_SENDER create(
-            RESOURCE res,
-            BUFFER key,
-            BUFFER salt,
-            STREAM_SENDER_CALLBACK callback = nullptr);
+    static ResourceSender$ create(
+            Resource$ res,
+            MemoryBuffer$ key,
+            MemoryBuffer$ salt,
+            StreamSenderCallback callback = nullptr);
 
 protected:
 
-    ResourceSender(RESOURCE res, STREAM_SENDER_CALLBACK callback);
+    ResourceSender(Resource$ res, StreamSenderCallback callback);
 
-    bool init(BUFFER key, BUFFER salt);
+    bool init(MemoryBuffer$ key, MemoryBuffer$ salt);
 
-    bool preparePacket(PACKET &pkt, uint32_t bytesToSend, uint32_t bytesSent);
+    bool preparePacket(Packet$ &pkt, uint32_t bytesToSend, uint32_t bytesSent);
 
-    bool processPacket(PACKET &pkt);
+    bool processPacket(Packet$ &pkt);
 
     void invokeCallback();
 
 protected:
 
-    RESOURCE m_res;
+    Resource$ m_res;
 
     Crypto::AES m_aes;
 

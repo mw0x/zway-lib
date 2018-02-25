@@ -31,6 +31,9 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Request)
+USING_SHARED_PTR(RequestEvent)
+
 // ============================================================ //
 
 /**
@@ -41,29 +44,29 @@ class RequestEvent : public Event
 {
 public:
 
-    static REQUEST_EVENT cast(EVENT event);
+    static RequestEvent$ cast(Event$ event);
 
-    static REQUEST_EVENT create(
+    static RequestEvent$ create(
             Type type,
-            REQUEST request,
+            Request$ request,
             const UBJ::Value &data={},
             const UBJ::Value &error={});
 
     void dispatch();
 
-    REQUEST request();
+    Request$ request();
 
 protected:
 
     RequestEvent(
             Type type,
-            REQUEST request,
+            Request$ request,
             const UBJ::Value &data,
             const UBJ::Value &error);
 
 protected:
 
-    REQUEST m_request;
+    Request$ m_request;
 };
 
 // ============================================================ //

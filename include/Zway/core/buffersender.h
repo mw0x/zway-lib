@@ -31,6 +31,9 @@
 
 namespace Zway {
 
+USING_SHARED_PTR(Buffer)
+USING_SHARED_PTR(BufferSender)
+
 // ============================================================ //
 
 /**
@@ -41,27 +44,27 @@ class BufferSender : public StreamSender
 {
 public:
 
-    static BUFFER_SENDER create(
+    static BufferSender$ create(
             uint32_t id,
             Packet::StreamType type,
-            BUFFER buffer,
-            STREAM_SENDER_CALLBACK callback = nullptr);
+            Buffer$ buffer,
+            StreamSenderCallback callback = nullptr);
 
 protected:
 
     BufferSender(
             uint32_t id,
             Packet::StreamType type,
-            BUFFER buffer,
-            STREAM_SENDER_CALLBACK callback);
+            Buffer$ buffer,
+            StreamSenderCallback callback);
 
     bool init();
 
-    bool preparePacket(PACKET &pkt, uint32_t bytesToSend, uint32_t bytesSent);
+    bool preparePacket(Packet$ &pkt, uint32_t bytesToSend, uint32_t bytesSent);
 
 protected:
 
-    BUFFER m_buffer;
+    Buffer$ m_buffer;
 };
 
 // ============================================================ //
