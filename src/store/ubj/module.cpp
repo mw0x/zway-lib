@@ -25,7 +25,7 @@
 // ============================================================ //
 
 #include "Zway/core/memorybuffer.h"
-#include "Zway/store/ubjstore.h"
+#include "Zway/store/ubj/store.h"
 
 namespace Zway { namespace UBJ {
 

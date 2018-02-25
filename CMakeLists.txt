@@ -114,8 +114,8 @@ set(libzway_SRCS
     src/request/requestevent.cpp
 
     src/store/store.cpp
-    src/store/ubjmodule.cpp
-    src/store/ubjstore.cpp
+    src/store/ubj/module.cpp
+    src/store/ubj/store.cpp
 
     src/client.cpp
 

@@ -27,7 +27,7 @@
 #ifndef ZWAY_STORE_H_
 #define ZWAY_STORE_H_
 
-#include "Zway/store/ubjstore.h"
+#include "Zway/store/ubj/store.h"
 
 namespace Zway {
 

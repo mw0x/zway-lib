@@ -30,7 +30,7 @@
 #include "Zway/core/buffer.h"
 #include "Zway/core/crypto/aes.h"
 #include "Zway/core/thread/handler.h"
-#include "Zway/store/ubjmodule.h"
+#include "Zway/store/ubj/module.h"
 
 namespace Zway { namespace UBJ {
 

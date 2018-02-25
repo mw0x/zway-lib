@@ -26,7 +26,7 @@
 
 #include "Zway/core/crypto/random.h"
 #include "Zway/core/memorybuffer.h"
-#include "Zway/store/ubjstore.h"
+#include "Zway/store/ubj/store.h"
 
 #include <sstream>
 
